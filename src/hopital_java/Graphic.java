@@ -30,7 +30,7 @@ public class Graphic extends JFrame{
        
         pan_menu= new JPanel(); //on instancie un pannel pour le menu
        
-        Connexion co=new Connexion();
+        LogIn co=new LogIn();
         pan_connexion =co.getPan_connexion(); // pareil pour le labyrinthe
         
         getContentPane().add(pan_connexion); // ajouter le panneau dans la fenêtre
