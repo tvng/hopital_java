@@ -3,6 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+/**  -------- VUE -------- */
+
 package hopital_java;
 
 
@@ -10,15 +13,19 @@ package hopital_java;
 import javax.swing.*;
 import java.awt.*;
 
-
 /**
- *
- * @author Tao Tuong Vi
- */
+ * @author DUCRET Amandine, PAGES Hermance, TAO Tuong Vi
+*/
+
+
 public class Graphic extends JFrame{
     
+    private CardLayout cl; //pour gerer le changement de panel
+    
+    //un panel pour chaque "page"
     private JPanel pan_menu;
     private JPanel pan_connexion;
+
     
     public Graphic()
     { 
@@ -31,10 +38,11 @@ public class Graphic extends JFrame{
         pan_menu= new JPanel(); //on instancie un pannel pour le menu
        
         LogIn co=new LogIn();
-        pan_connexion =co.getPan_connexion(); // pareil pour le labyrinthe
-        
+        pan_connexion=co.getPan_connexion(); // pareil pour le labyrinthe
         getContentPane().add(pan_connexion); // ajouter le panneau dans la fenêtre
-     
+        
+        
+        
     }
     
 }
