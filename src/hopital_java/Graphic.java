@@ -9,7 +9,6 @@
 package hopital_java;
 
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -43,18 +42,19 @@ public class Graphic extends JFrame {
         pan_logIn=co.getPan_connexion(); // pareil pour le labyrinthe
         
         getContentPane().add(pan_logIn); // ajouter le panneau dans la fenêtre
-        co.getSubmit().addActionListener(new EcouteurBoutonChanger());
+        co.getSubmit().addActionListener(new ListenerChangePanel());
         
     }
     
     
        //Ecouteur de ton bouton
-    public class EcouteurBoutonChanger implements ActionListener{
+    public class ListenerChangePanel implements ActionListener{
         public void actionPerformed(ActionEvent clic) {
             //Appelle la méthode de changement de panel
            
+            Graphic.this.remove(pan_logIn); //on enleve le pan precedent
             Graphic.this.getContentPane().add(pan_menu);
-            Graphic.this.revalidate(); 
+            Graphic.this.revalidate();  //pou reafficher
         }
     }
     
