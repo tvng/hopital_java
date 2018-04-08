@@ -17,7 +17,7 @@ import javax.swing.*;
 //notes : Le GridBagLayout c'est un truc graphique pour definir l'emplacement de nos objets sur la page
 // et c'est l'enfer
 
-public class LogIn implements ActionListener{
+public class LogIn{
     
     //attributs
     private JPanel pan;
@@ -38,12 +38,11 @@ public class LogIn implements ActionListener{
     private JLabel lab_password;//pour connection distante
     
     private JButton submit;
-    
-    public boolean salut;
+
     
     public LogIn()
     {
-        salut=false;
+       
         //instanciation
         pan=new JPanel();
         pan.setLayout(new GridBagLayout());
@@ -149,10 +148,6 @@ public class LogIn implements ActionListener{
         
         //  **** le reste *****   
         
-  
-        boolean isLocalSelected = local.isSelected();
-        submit.addActionListener(this);
-
         
     }
             
@@ -161,20 +156,10 @@ public class LogIn implements ActionListener{
     {
         return pan;
     }
-
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        
-        Object source=ae.getSource(); //qd on clique sur un bouton, on envoie ActionEvent et apres ça prend getSource
-        
-        if (source==submit)
-        {
-            salut=true;
-            System.out.println("TRUE");
-        }
-        
+    public JButton getSubmit()
+    {
+        return submit;
     }
-    
     
 
     
