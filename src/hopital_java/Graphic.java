@@ -20,13 +20,14 @@ import java.awt.event.*;
 
 public class Graphic extends JFrame {
     
-    private CardLayout cl; //pour gerer le changement de panel
-    
-    //un panel pour chaque "page"
-    private JPanel pan_menu;
-    private JPanel pan_logIn;
+   // private CardLayout cl; //pour gerer le changement de panel
 
     private Controler ctrl;
+    
+    //un panel pour chaque "page"
+    private LogIn log_in;
+    private Menu main_menu;
+    
     
     public Graphic()
     { 
@@ -37,19 +38,15 @@ public class Graphic extends JFrame {
         setTitle("PROJET S6 - DUCRUET PAGES TAO");
         setSize(800, 600);
      
-        //different pannels for each functions
-       
-        Menu gmenu= new Menu(); //on instancie un pannel pour le menu
-        pan_menu=gmenu.getPan_menu();
-        
-        LogIn co=new LogIn();
-        pan_logIn=co.getPan_connexion(); // pareil pour le labyrinthe
+        //On instancie les classes
+        log_in=new LogIn();
+        main_menu=new Menu();
         
         //on affiche la page de login sur notre frame
-        getContentPane().add(pan_logIn); 
+        getContentPane().add(log_in.getPan_connexion()); 
         
         //on ajoute un listener au bouton "valider" de notre paneau login
-        co.getSubmit().addActionListener(ctrl);
+        log_in.getSubmit().addActionListener(ctrl);
         
         
     }
@@ -65,8 +62,8 @@ public class Graphic extends JFrame {
             //il faudra ajouter les conditions d'entrée au 
             
             System.out.println("cmd = submit accueil login");
-            remove(pan_logIn); //on enleve le pan precedent
-            getContentPane().add(pan_menu);
+            remove(log_in.getPan_connexion()); //on enleve le pan precedent
+            getContentPane().add(main_menu.getPan_menu());
             revalidate();  //pour reafficher
     
         }
