@@ -5,7 +5,7 @@ données à la demande des modules de Recherche, de Mise à jour et de Générat
 méthodes permettent chacune d’exécuter une requête SQL de type String passée en paramètre.
  * 
  */
-package hopital_java;
+package db;
 
 /*
  * Librairies importées

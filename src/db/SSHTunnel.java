@@ -1,4 +1,4 @@
-package hopital_java;
+package db;
 
 import com.jcraft.jsch.*;
 

@@ -4,8 +4,9 @@
     Controler est utilisé lorsqu'un ActionListener intervient
 
  */
-package hopital_java;
+package controler;
 
+import hopital_java.Graphic;
 import java.awt.event.*;
 import javax.swing.JOptionPane;
 
@@ -36,13 +37,16 @@ public class Controler implements ActionListener{
         //on recupere un string associe au truc sur lequel on a cliqué
         //par exemple, un JButton "valider" renverra le string "valider".
         String command=ae.getActionCommand();
-        vue.changeVue(command); //on appelle la methode dans "Graphic" 
-           
-        //  if (source==)
-           
-	//	monMenu.switchVue(b.getActionCommand());
-           // vue.remove(pan_logIn); //on enleve le pan precedent
-         //   Graphic.this.getContentPane().add(pan_menu);
-          //  Graphic.this.revalidate();  //pou reafficher
+        
+        if (command=="valider") {
+            vue.goToMenu(command); //on appelle la methode dans "Graphic" 
         }
+        
+        if (command=="Rechercher")
+        {
+            System.out.println("On a cliqué sur -rechercher-");
+            vue.goToModule(command);
+        }
+        
+    }
 }
