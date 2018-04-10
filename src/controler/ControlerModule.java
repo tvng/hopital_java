@@ -1,12 +1,12 @@
 /*
-   ptet que ça va servir a rien
-
+   CONTROLEUR UTILISE PAR LES "MODULES"
  */
 
 
 
 package controler;
 
+import hopital_java.Search;
 import hopital_java.Graphic;
 import java.awt.event.*;
 import javax.swing.JOptionPane;
@@ -18,16 +18,20 @@ import javax.swing.JOptionPane;
 */
 
 
-public class ControlerMenu implements ActionListener{
+public class ControlerModule implements ActionListener{
 
-    public ControlerMenu()
+    
+    private Search s;
+    
+    public ControlerModule(Search _s)
     {
-        
+        s=_s;
     }
             
     @Override
     public void actionPerformed(ActionEvent ae) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       System.out.println("controle module recherche");
+       s.request();
     }
  
 }

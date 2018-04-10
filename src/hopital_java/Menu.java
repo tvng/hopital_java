@@ -9,11 +9,6 @@ package hopital_java;
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 
 /**
  *
@@ -25,18 +20,21 @@ public class Menu extends JPanel{
     
     private JButton search;
     private JButton update;
-    private JButton generate;
+    private JButton reporting;
     
+    /**
+     *
+     */
     public Menu()
     {
       
         search=new JButton("Rechercher");
         update=new JButton("MAJ");
-        generate=new JButton("Générer");
+        reporting=new JButton("Générer");
         
         add(search);
         add(update);
-        add(generate);
+        add(reporting);
     }
     
      
@@ -49,9 +47,9 @@ public class Menu extends JPanel{
     {
         return update;
     } 
-      public JButton getGenerate()
+      public JButton getReporting()
     {
-        return generate;
+        return reporting;
     } 
    
     

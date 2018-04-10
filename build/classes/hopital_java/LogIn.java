@@ -17,10 +17,10 @@ import javax.swing.*;
 //notes : Le GridBagLayout c'est un truc graphique pour definir l'emplacement de nos objets sur la page
 // et c'est l'enfer
 
-public class LogIn implements ActionListener{
+public class LogIn extends JPanel{
     
     //attributs
-    private JPanel pan;
+  //  private JPanel pan;
     
     //BDD
     private JRadioButton local;
@@ -38,15 +38,13 @@ public class LogIn implements ActionListener{
     private JLabel lab_password;//pour connection distante
     
     private JButton submit;
-    
-    public boolean salut;
+
     
     public LogIn()
     {
-        salut=false;
+       
         //instanciation
-        pan=new JPanel();
-        pan.setLayout(new GridBagLayout());
+        setLayout(new GridBagLayout());
 
         
         Dimension dimension = new Dimension(200, 40); //pour la taille des labels et machins
@@ -99,7 +97,7 @@ public class LogIn implements ActionListener{
         grid.gridwidth = 2; //le label de bienvenue prend la place de 3 boutons en largeur
         //c'est comme un colspan en html
         
-        pan.add(hello, grid); //on ajoute le texte en (0,0)
+        this.add(hello, grid); //on ajoute le texte en (0,0)
           
         grid.insets = new Insets(5, 5, 5, 5); //on definit de nouvelles marges pour la suite
         
@@ -108,73 +106,55 @@ public class LogIn implements ActionListener{
         grid.gridwidth=1; //on reset la valeur comme quoi la cellule du grid prend une seule cellule
         grid.gridy = 1; //on se positionne sur une nouvelle case (x, y)
         grid.gridx = 0;
-        pan.add(local, grid); //on ajoute notre bouton local dans cette case
+        this.add(local, grid); //on ajoute notre bouton local dans cette case
         
         grid.anchor = GridBagConstraints.LINE_START; //on aligne la case a gauche
         grid.gridy=1;
         grid.gridx =1;
-        pan.add(distant, grid);
+        this.add(distant, grid);
         
         grid.gridx = 0;
         grid.gridy = 2;
         grid.anchor = GridBagConstraints.LINE_END;//on aligne a droite
         
         //on ajoute les labels
-        pan.add(lab_nameBDD, grid);
+        this.add(lab_nameBDD, grid);
         grid.gridy = 3;
-        pan.add(lab_passwordBDD, grid);
+        this.add(lab_passwordBDD, grid);
         grid.gridy = 4;
-        pan.add(lab_login, grid);
+        this.add(lab_login, grid);
         grid.gridy = 5;
-        pan.add(lab_password, grid);
+        this.add(lab_password, grid);
         
         //on ajoute les zones de text
         grid.anchor = GridBagConstraints.LINE_START;
         grid.gridx = 1;
         grid.gridy = 2;
-        pan.add(nameBDD, grid);
+        this.add(nameBDD, grid);
         grid.gridy = 3;
-        pan.add(passwordBDD, grid);
+        this.add(passwordBDD, grid);
         grid.gridy = 4;
-        pan.add(login, grid);
+        this.add(login, grid);
         grid.gridy = 5;
-        pan.add(password, grid);
+        this.add(password, grid);
         
         
         //pareil pour le bouton valider
         submit=new JButton("valider");
         grid.gridy = 6;
-        pan.add(submit, grid);
+        this.add(submit, grid);
         
         
         //  **** le reste *****   
         
-  
-        boolean isLocalSelected = local.isSelected();
-        submit.addActionListener(this);
-
         
-    }
-            
-            
-    public JPanel getPan_connexion()
-    {
-        return pan;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        
-        Object source=ae.getSource(); //qd on clique sur un bouton, on envoie ActionEvent et apres ça prend getSource
-        
-        if (source==submit)
-        {
-            salut=true;
-            System.out.println("TRUE");
-        }
-        
-    }
     
+    public JButton getSubmit()
+    {
+        return submit;
+    }
     
 
     
