@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ MODULE DE  MISE A JOUR
+ on veut ajouter, modifier et supprimer dans la BDD
  */
 package hopital_java;
 
@@ -26,7 +25,12 @@ public class Update extends JPanel{
     
     public Update(Connexion _co)
     {
+        JLabel debug=new JLabel ("update (label a supprimer)");
+        add(debug);
+        
         co_bdd=_co;
+        //Dans ce module on veut ajouter, modifier et supprimer dans la BDD
+    
     }
     
 }

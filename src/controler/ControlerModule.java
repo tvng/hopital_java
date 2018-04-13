@@ -23,6 +23,9 @@ public class ControlerModule implements ActionListener{
     
     private Search s;
     
+    /** CTOR
+     * @param _s
+     */
     public ControlerModule(Search _s)
     {
         s=_s;
@@ -30,7 +33,7 @@ public class ControlerModule implements ActionListener{
             
     @Override
     public void actionPerformed(ActionEvent ae) {
-       System.out.println("controle module recherche");
+       System.out.println("controle module");
        s.request();
     }
  

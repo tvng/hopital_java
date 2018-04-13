@@ -21,6 +21,8 @@ public class Controler implements ActionListener{
     //on lie "Graphic" à "Controler"
     private Graphic vue;
     
+    /** CTOR
+     * @param _vue */
     public Controler(Graphic _vue)
     {
         vue=_vue;
@@ -43,19 +45,14 @@ public class Controler implements ActionListener{
         if (command=="valider") {
             vue.goToMenu(command); //on appelle la methode dans "Graphic" 
         }
-        
-        if (command=="Rechercher")
-        {
-            System.out.println("On a cliqué sur -rechercher-");
-            vue.goToModule(command);
-        }
     */
    
         //si l'object que l'on a récupéré c'est le bouton valider le la page login
         if (source==vue.getLogIn().getSubmit())
         {
             System.out.println("click sur le bouton valider du panel de connection");
-            vue.goToMenu("valider_connection"); //on appelle la methode dans "Graphic" 
+            vue.goToMenu("valider_connection"); //on appelle la methode dans "Graphic"
+            //& on lui envoie un String pour savoir sur quel bouton on a appuyé  
         }
         
          if (source==vue.getMenu().getSearch() )

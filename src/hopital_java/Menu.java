@@ -12,18 +12,16 @@ import java.awt.*;
 
 /**
  *
- * @author Tao Tuong Vi
+ * @author Ducruet, Pages, Tao
  */
 public class Menu extends JPanel{
-
-    // ControlerMenu ctrl_m; //m pour menu
     
     private JButton search;
     private JButton update;
     private JButton reporting;
     
     /**
-     *
+      CTOR
      */
     public Menu()
     {
@@ -37,7 +35,8 @@ public class Menu extends JPanel{
         add(reporting);
     }
     
-     
+    /** GETTER
+     * @return  */ 
     public JButton getSearch()
     {
         return search;

@@ -4,8 +4,8 @@
 
 /* -> Notes par tuong vi : ce .java CONTIENT LE MAIN */
 
-/* !!!!!!!!!! & oubliez pas la javadoc */
-//j'ai mis tous les attributs/methodes anglais , sauf les commentaires pour expliquer
+/* !!!!!!!!!! n'oubliez pas la javadoc */
+// j'ai mis tous les attributs/methodes anglais , sauf les commentaires pour expliquer
 
 /*
 
@@ -29,7 +29,7 @@ public class Hospital{
     /** main
      * @param args */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
         
         //On instancie une fenetre "JFrame" de la classe "Graphic" qui contiendra tout
         Graphic gFrame=new Graphic();

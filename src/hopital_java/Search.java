@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ MODULE DE  RECHERCHE
  */
 package hopital_java;
 
@@ -25,7 +23,7 @@ public class Search extends JPanel{
     private JButton submit_search; 
     private ControlerModule ctrl;
     
-    /** @param co */
+    /** CTOR  @param co */
     public Search(Connexion co)
     {
         co_bdd=co; //on a la base de donnee
@@ -40,28 +38,30 @@ public class Search extends JPanel{
         
     }
     
-    
+    /** */
     public void run_search()
     {
         this.add(new JTextField("mutuelle"));
         this.add(submit_search);
     }
     
+    /** */
     public void request()
     {
-        System.out.println("REqQQQQUEST");
+        System.out.println("REqQQQQUEST (debug a effacer)");
         
+        //on a une arraylist qui contient la tab recuperee par la requete sql
         ArrayList <String> al=new ArrayList<>();
-      //CA MARCHE PAS  
-       System.out.println("ici");
+
 
         try {
-
+            //on entre une requete SQL (cf le Cahier des charges)
             al=co_bdd.remplirChampsRequete("SELECT nom FROM malade WHERE mutuelle = 'MAAF' ");
         } catch (SQLException ex) {
              System.out.println("erreur");
            Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         
          System.out.println(al);
     }

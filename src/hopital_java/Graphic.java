@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Ceci est la VUE, le JFrame. Elle possède en attributs des JPanels et autres.
+   C'est genre une big boite qui contient en attributs des panneaux d'affichage
+   Elle est liée à Controler.java, donc dès qu'on fera un clic, ça va aller dans Controler (qui contient un attribut de type Graphic) et
+    réappeler des fonctions de Graphic. 
+
  */
 
 /**  -------- VUE -------- */
@@ -26,33 +28,34 @@ public class Graphic extends JFrame {
     
    // private CardLayout cl; //pour gerer le changement de panel
 
+    //notre controleur
     private Controler ctrl;
     
-    //un panel pour chaque "page"
-    private LogIn log_in;
-    private Menu main_menu;
+    private LogIn log_in; //panel de la page de connexion
+   
+    private JSplitPane split_pane; //ça c'est un truc qui est divisé en deux, donc pour afficher 2 panels en meme temps
     
+    private Menu main_menu; //panel de menu 
+    
+    //un panel pour chaque module
     private Search search_pan;
     private Update update_pan;
     private Reporting reporting_pan;
     
+    //truc pour se connecter à la bdd
     private Connexion co_bdd;
     
-    private JSplitPane split_pane;
     
     public Graphic()
     { 
         
         ctrl = new Controler (this); //on lie à un controlleur
         
-        //size of the frame
         setTitle("PROJET S6 - DUCRUET PAGES TAO");
-        setSize(800, 600);
+        setSize(800, 600); //size of the frame
      
         //On instancie les classes
         log_in=new LogIn();
-        main_menu=new Menu();
-        
         
         //on affiche la page de login sur notre frame
         getContentPane().add(log_in); 
@@ -60,6 +63,8 @@ public class Graphic extends JFrame {
         //on ajoute un listener au bouton "valider" de notre panneau login
         log_in.getSubmit().addActionListener(ctrl);
         
+        //on instancie le menu pour lui mettre des actionlistener
+        main_menu=new Menu();
         //on ajoute des listener aux boutons de notre menu
         main_menu.getUpdate().addActionListener(ctrl);
         main_menu.getSearch().addActionListener(ctrl);
@@ -70,7 +75,7 @@ public class Graphic extends JFrame {
     }
     
     //Cette méthode permet, avec l'action listener de la classe Controler de changer de panel
-    //par exemple : passer de la vue "écran d'accueil login" au "menu principal"
+    /** Passe de l'écran de connection à l'écran avec menu+ module de recherche (par défaut)*/
     public void goToMenu(String _command)
     {
         System.out.println("Debug Changer de Vue");
@@ -88,7 +93,7 @@ public class Graphic extends JFrame {
                 System.out.println("connection à la db");
                 co_bdd=new Connexion("hopital", "root", ""); //ctor de Connexion
             } catch (ClassNotFoundException | SQLException e) {
-               System.out.println("fail connexion to db");
+               System.out.println("CONNECTEZ-VOUS SUR WAMP !!!!!!!!!!!!!! (fail connexion to db)");
             }
             
             //on instancie nos panels que l'on va utiliser plus tard
@@ -108,6 +113,7 @@ public class Graphic extends JFrame {
         }
     }
     
+    /** Fonction pour changer l'affichage des differents panels de modules */
     //depuis le menu on accède a chaque module par exemple : rechercher, maj, etc
     public void goToModule(String _command)
     {

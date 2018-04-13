@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+Page de connexion de départ : rentrer les infos utilisateur, mdp, choix de bdd etc.
+IL FAUT -> récupérer ces infos, blinder, puis vérifier qu'elles sont bonnes et de connecter à la bonne bdd.
+Pour l'instant on ne fait que se connecter à la bdd locale/root car j'ai mis direct dans le code, mais en théorie
+il faudrait récupérer les infos rentrées par l'utilisateur.
  */
 package hopital_java;
 
@@ -14,7 +15,7 @@ import javax.swing.*;
 
 
 //notes : Le GridBagLayout c'est un truc graphique pour definir l'emplacement de nos objets sur la page
-// et c'est l'enfer
+
 
 public class LogIn extends JPanel{
     
@@ -73,7 +74,9 @@ public class LogIn extends JPanel{
         runLogIn();  //j'ai séparé le reste dans une méthode pour faire plus propre mais on aurait pu tout mettre à la suite
         
     }
-    
+
+    /** */
+    //juste histoire de découper le constructeur
     public void runLogIn()
     {
         
@@ -149,7 +152,8 @@ public class LogIn extends JPanel{
         
     }
 
-    
+    /** GETTERS
+     * @return  */
     public JButton getSubmit()
     {
         return submit;
