@@ -141,7 +141,11 @@ public class Graphic extends JFrame {
         {
             //on enleve le pan du bas
             split_pane.remove(split_pane.getBottomComponent());
-            split_pane.setBottomComponent(reporting_pan); //pour le remplacer par le pan de recherche
+            
+            JScrollPane sb=new JScrollPane(reporting_pan, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            
+            split_pane.setBottomComponent(sb); //pour le remplacer par le pan de recherche
         }
         
     }

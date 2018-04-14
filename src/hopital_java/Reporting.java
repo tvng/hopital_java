@@ -6,11 +6,14 @@ explications au fur et a mesure du code
 
 J'ai aussi expliqué comment RECUPERER les données SQL de l'arrayList SQL de "Connexion" !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+La scrollbar sur ce panel se fait dans "GRAPHIC" dans gotomodule (j'ai pas trouvé comment le mettre dans la classe Reporting...)
+
  */
 package hopital_java;
 
 import controler.ControlerModule;
 import db.Connexion;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -32,20 +35,24 @@ public class Reporting extends JPanel{
     
     private Connexion co_bdd;
     private ControlerModule ctrl;
-    private JFreeChart nb_malades; //nombre de malades par service
-    
+   
     /** CTOR
      * @param _co
      */
     public Reporting(Connexion _co)
-    {
+    {     
         co_bdd=_co;
-        JLabel debug=new JLabel ("reporting (label a suppr)");
-        add(debug);
         
+        //layout BoxLayout
+        //le "PAGE_AXIS" permet d'afficher tout a la suite verticalement
+        //pour tout afficher horizontalement c'est LINE_AXIS
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         
+  
         // ********** Graphique du  nombre de malades par service ********** ///
         // on va utiliser un bar chart
+        
+        JFreeChart nb_malades; //nombre de malades par service
         
         //on a une arraylist qui contient la tab recuperee par la requete SQL
         ArrayList <String> al=new ArrayList<>();
@@ -96,9 +103,9 @@ public class Reporting extends JPanel{
 
         }
 
-        
+        JFreeChart nb_doc; //nombre de malades par service
         //donc on crée notre bar chart
-        nb_malades= ChartFactory.createBarChart("Nombre de malades par service", // chart title
+        nb_doc= ChartFactory.createBarChart("Nombre de malades par service", // chart title
         "Service", // domain axis label
         "Nombre", // range axis label
         dataset, // data
@@ -108,10 +115,53 @@ public class Reporting extends JPanel{
         false // URLs?
         );
         
+        ChartPanel nb_docPanel = new ChartPanel(nb_doc, false);
+        this.add(nb_docPanel);
+        
+        
+  
+        
+        // ********** Graphique du  nombre docteurs par spécialité ********** ///
+        // on va utiliser un bar chart
+        
+        ArrayList <String> al2=new ArrayList<>();
+
+        try {
+            al2=co_bdd.remplirChampsRequete("SELECT COUNT(numero), specialite FROM docteur GROUP BY specialite");
+            
+        } catch (SQLException ex) {
+            System.out.println("erreur");
+            Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        DefaultCategoryDataset dataset2 = new DefaultCategoryDataset();
+        
+        for (int i=0; i<al2.size(); i++)
+        {
+            String[] splitted;
+            //on utilise la fonction "split" et on sépare notre string sur la 'virgule' du string de l'arraylist 
+            splitted = al2.get(i).split(",");
+            dataset2.addValue(Integer.parseInt(splitted[0]), splitted[1], splitted[1]);            
+
+        }
+
+        
+        nb_malades= ChartFactory.createBarChart("Nombre de docteurs par specialite", "Spécialité", "Nombre",
+        dataset2, // data
+        PlotOrientation.VERTICAL, true, // include legend
+        true, // tooltips?
+        false // URLs?
+        );
+        
         //on affiche, faut creer un objet de type "ChartPanel"
-        ChartPanel chartPanel = new ChartPanel(nb_malades, false);
+        ChartPanel nb_maladesPanel = new ChartPanel(nb_malades, false);
         //on ajoute au panel actuel
-        this.add(chartPanel);
+        this.add(nb_maladesPanel);
+        
+        
+        
+        
+        
         
         
         
