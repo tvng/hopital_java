@@ -195,7 +195,7 @@ public class Connexion {
             }
 
             // ajouter un "\n" à la ligne des champs
-            champs = champs + "\n";
+    //        champs = champs + "\n";  /************************ askip enlever le \n pourrait sauver des vies */
 
             // ajouter les champs de la ligne dans l'ArrayList
             liste.add(champs);
