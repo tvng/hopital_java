@@ -5,7 +5,7 @@ données à la demande des modules de Recherche, de Mise à jour et de Générat
 méthodes permettent chacune d’exécuter une requête SQL de type String passée en paramètre.
  * 
  */
-package hopital_java;
+package db;
 
 /*
  * Librairies importées
@@ -155,7 +155,7 @@ public class Connexion {
         }
 
         // ajouter un "\n" à la ligne des champs
-        champs = champs + "\n";
+        champs = champs + "\n"; //************************** selon les bons conseils de caudo faut enlever le \n mais à voir **********
 
         // ajouter les champs de la ligne dans l'ArrayList
         liste.add(champs);
@@ -195,7 +195,7 @@ public class Connexion {
             }
 
             // ajouter un "\n" à la ligne des champs
-            champs = champs + "\n";
+    //        champs = champs + "\n";  /************************ askip enlever le \n pourrait sauver des vies */
 
             // ajouter les champs de la ligne dans l'ArrayList
             liste.add(champs);

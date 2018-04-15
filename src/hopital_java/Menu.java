@@ -9,44 +9,47 @@ package hopital_java;
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 
 /**
  *
- * @author Tao Tuong Vi
+ * @author Ducruet, Pages, Tao
  */
-public class Menu extends JFrame implements ActionListener{
-
-    private JPanel pan;
+public class Menu extends JPanel{
+    
     private JButton search;
     private JButton update;
-    private JButton generate;
+    private JButton reporting;
     
+    /**
+      CTOR
+     */
     public Menu()
     {
-        pan=new JPanel();
-        
+      
         search=new JButton("Rechercher");
         update=new JButton("MAJ");
-        generate=new JButton("Générer");
+        reporting=new JButton("Générer");
         
-        pan.add(search);
-        pan.add(update);
-        pan.add(generate);
+        add(search);
+        add(update);
+        add(reporting);
     }
     
-    public JPanel getPan_menu()
+    /** GETTER
+     * @return  */ 
+    public JButton getSearch()
     {
-        return pan;
-    }
+        return search;
+    } 
     
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+     public JButton getUpdate()
+    {
+        return update;
+    } 
+      public JButton getReporting()
+    {
+        return reporting;
+    } 
+   
     
 }

@@ -19,34 +19,40 @@ import java.awt.event.MouseListener;
  *
  * @author Tao Tuong Vi
  */
-public class Menu extends JFrame implements ActionListener{
+public class Menu extends JPanel{
 
-    private JPanel pan;
+    // ControlerMenu ctrl_m; //m pour menu
+    
     private JButton search;
     private JButton update;
     private JButton generate;
     
     public Menu()
     {
-        pan=new JPanel();
-        
+      
         search=new JButton("Rechercher");
         update=new JButton("MAJ");
         generate=new JButton("Générer");
         
-        pan.add(search);
-        pan.add(update);
-        pan.add(generate);
+        add(search);
+        add(update);
+        add(generate);
     }
     
-    public JPanel getPan_menu()
+     
+    public JButton getSearch()
     {
-        return pan;
-    }
+        return search;
+    } 
     
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+     public JButton getUpdate()
+    {
+        return update;
+    } 
+      public JButton getGenerate()
+    {
+        return generate;
+    } 
+   
     
 }
