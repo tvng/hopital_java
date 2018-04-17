@@ -80,7 +80,6 @@ public class Graphic extends JFrame {
     /** Passe de l'écran de connection à l'écran avec menu+ module de recherche (par défaut)*/
     public void goToMenu(String _command)
     {
-        System.out.println("Debug Changer de Vue");
 
         if (("valider_connection".equals(_command)))  //si on a cliqué sur le bouton valider de la page d'accueil login
         {

@@ -52,7 +52,7 @@ public class Controler implements ActionListener{
         {
             // Conditions d'entrée à la BDD 
            // On recupere les infos que l'on entre sur la page d'accueil
-            if((vue.getLogIn().getNameBDD() == "hopital") )
+            if((vue.getLogIn().getNameBDD().equals("hopital")) && (vue.getLogIn().getLogin().equals("root")) && (vue.getLogIn().getPasswordBDD().equals("")))
             {
                 vue.setIdentifiants(true);
             }
@@ -64,10 +64,6 @@ public class Controler implements ActionListener{
                 // on lui envoie un String pour savoir sur quel bouton on a appuyé  
             }else{
                 System.out.println("Identifiants incorrects");
-                System.out.println(vue.getLogIn().getNameBDD());
-                System.out.println(vue.getLogIn().getLogin());
-                System.out.println(vue.getLogIn().getPasswordBDD());
-                System.out.println(vue.getIdentifiants());
             }
         }
         
