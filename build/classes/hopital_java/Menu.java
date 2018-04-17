@@ -9,37 +9,34 @@ package hopital_java;
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 
 /**
  *
- * @author Tao Tuong Vi
+ * @author Ducruet, Pages, Tao
  */
 public class Menu extends JPanel{
-
-    // ControlerMenu ctrl_m; //m pour menu
     
     private JButton search;
     private JButton update;
-    private JButton generate;
+    private JButton reporting;
     
+    /**
+      CTOR
+     */
     public Menu()
     {
       
         search=new JButton("Rechercher");
         update=new JButton("MAJ");
-        generate=new JButton("Générer");
+        reporting=new JButton("Générer");
         
         add(search);
         add(update);
-        add(generate);
+        add(reporting);
     }
     
-     
+    /** GETTER
+     * @return  */ 
     public JButton getSearch()
     {
         return search;
@@ -49,9 +46,9 @@ public class Menu extends JPanel{
     {
         return update;
     } 
-      public JButton getGenerate()
+      public JButton getReporting()
     {
-        return generate;
+        return reporting;
     } 
    
     

@@ -155,7 +155,7 @@ public class Connexion {
         }
 
         // ajouter un "\n" à la ligne des champs
-        champs = champs + "\n"; //************************** selon les bons conseils de caudo faut enlever le \n mais à voir **********
+        champs = champs + "\n"; //************************** selon les bons conseils de segado faut enlever le \n mais à voir **********
 
         // ajouter les champs de la ligne dans l'ArrayList
         liste.add(champs);

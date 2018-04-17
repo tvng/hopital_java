@@ -79,21 +79,25 @@ public class Graphic extends JFrame {
     public void goToMenu(String _command)
     {
         System.out.println("Debug Changer de Vue");
-        
-        if ("valider_connection".equals(_command))  //si on a cliqué sur le bouton valider de la page d'accueil login
+
+        if (("valider_connection".equals(_command)))  //si on a cliqué sur le bouton valider de la page d'accueil login
         {   
-            // ********************** il faudra ajouter les conditions d'entrée à la BDD !!!!!!!!
-            
-            System.out.println("cmd = submit accueil login"); //debug
-            
-            
-            //******************ceci est la connexion à la DB locale, et déclaré en dur
-            //il faudra récupérer les infos que l'on entre sur la page d'accueil 
-            try {                
-                System.out.println("connection à la db");
-                co_bdd=new Connexion("hopital", "root", ""); //ctor de Connexion
-            } catch (ClassNotFoundException | SQLException e) {
-               System.out.println("CONNECTEZ-VOUS SUR WAMP !!!!!!!!!!!!!! (fail connexion to db)");
+            // Conditions d'entrée à la BDD 
+           // On recupere les infos que l'on entre sur la page d'accueil
+            if((log_in.getNameBDD() == "hopital") && (log_in.getPasswordBDD() == "") && (log_in.getLogin() == "root"))
+            {
+                //******************ceci est la connexion à la DB locale
+                try {                
+                    System.out.println("connection à la db");
+                    co_bdd=new Connexion(log_in.getNameBDD(), log_in.getLogin(), log_in.getPasswordBDD()); //ctor de Connexion
+                } catch (ClassNotFoundException | SQLException e) {
+                   System.out.println("CONNECTEZ-VOUS SUR WAMP !!!!!!!!!!!!!! (fail connexion to db)");
+                }
+            }else{
+                System.out.println("Vos identifiants sont incorrects.");
+                System.out.println(log_in.getNameBDD());
+                System.out.println(log_in.getLogin());
+                System.out.println(log_in.getPasswordBDD());
             }
             
             //on instancie nos panels que l'on va utiliser plus tard

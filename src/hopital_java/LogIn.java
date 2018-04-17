@@ -153,12 +153,26 @@ public class LogIn extends JPanel{
     }
 
     /** GETTERS
-     * @return  */
+     * @return le texte entre dans les champs */
     public JButton getSubmit()
     {
         return submit;
     }
     
+    public String getNameBDD() {
+        return nameBDD.getText();
+    }
 
+    public String getPasswordBDD() {
+        return passwordBDD.getText();
+    }
+
+    public String getLogin() {
+        return login.getText();
+    }
+
+    public String getPassword() {
+        return password.getText();
+    }
     
 }

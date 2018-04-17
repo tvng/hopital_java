@@ -8,7 +8,6 @@ package controler;
 
 import hopital_java.Graphic;
 import java.awt.event.*;
-import javax.swing.JOptionPane;
 
 
 
@@ -22,6 +21,8 @@ public class Controler implements ActionListener{
     //on lie "Graphic" à "Controler"
     private Graphic vue;
     
+    /** CTOR
+     * @param _vue */
     public Controler(Graphic _vue)
     {
         vue=_vue;
@@ -31,26 +32,46 @@ public class Controler implements ActionListener{
     @Override
      public void actionPerformed(ActionEvent ae) {
            
-        //on recupere l'objet sur lequel on a cliqué (pour l'instant on l'utilise pas mais je laisse la ligne au cas ou)
+        //on recupere l'objet sur lequel on a cliqué
         Object source = ae.getSource();
         
         //------------------------------------
-        
-        //on recupere un string associe au truc sur lequel on a cliqué
+       
+    /*  //on recupere un string associe au truc sur lequel on a cliqué
         //par exemple, un JButton "valider" renverra le string "valider".
+        
         String command=ae.getActionCommand();
         
-     /*   if (command=="valider") {
+        if (command=="valider") {
             vue.goToMenu(command); //on appelle la methode dans "Graphic" 
         }
-        
-        if (command=="Rechercher")
+    */
+   
+        //si l'object que l'on a récupéré c'est le bouton valider de la page login
+        if (source==vue.getLogIn().getSubmit())
         {
-            System.out.println("On a cliqué sur -rechercher-");
-            vue.goToModule(command);
+            System.out.println("click sur le bouton valider du panel de connection");
+            vue.goToMenu("valider_connection"); //on appelle la methode dans "Graphic"
+            //& on lui envoie un String pour savoir sur quel bouton on a appuyé  
         }
-
-*/
         
+         if (source==vue.getMenu().getSearch() )
+        {
+            System.out.println("click sur le bouton recherche du menu");
+            vue.goToModule("menu_rechercher"); //on appelle la methode dans "Graphic" 
+        }
+        
+         if (source==vue.getMenu().getUpdate() )
+        {
+            System.out.println("click sur le bouton recherche du menu");
+            vue.goToModule("menu_MAJ"); //on appelle la methode dans "Graphic" 
+        }
+         
+          if (source==vue.getMenu().getReporting() )
+        {
+            System.out.println("click sur le bouton de generation des graphiques du menu");
+            vue.goToModule("menu_generer"); //on appelle la methode dans "Graphic" 
+        }
+         
     }
 }

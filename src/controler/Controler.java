@@ -47,7 +47,7 @@ public class Controler implements ActionListener{
         }
     */
    
-        //si l'object que l'on a récupéré c'est le bouton valider le la page login
+        //si l'object que l'on a récupéré c'est le bouton valider de la page login
         if (source==vue.getLogIn().getSubmit())
         {
             System.out.println("click sur le bouton valider du panel de connection");
