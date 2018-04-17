@@ -45,6 +45,8 @@ public class Graphic extends JFrame {
     //truc pour se connecter à la bdd
     private Connexion co_bdd;
     
+    // On cree un boolean pour valider les identifiants
+    private boolean identifiants = false;
     
     public Graphic()
     { 
@@ -81,24 +83,14 @@ public class Graphic extends JFrame {
         System.out.println("Debug Changer de Vue");
 
         if (("valider_connection".equals(_command)))  //si on a cliqué sur le bouton valider de la page d'accueil login
-        {   
-            // Conditions d'entrée à la BDD 
-           // On recupere les infos que l'on entre sur la page d'accueil
-            if((log_in.getNameBDD() == "hopital") && (log_in.getPasswordBDD() == "") && (log_in.getLogin() == "root"))
-            {
-                //******************ceci est la connexion à la DB locale
-                try {                
-                    System.out.println("connection à la db");
-                    co_bdd=new Connexion(log_in.getNameBDD(), log_in.getLogin(), log_in.getPasswordBDD()); //ctor de Connexion
-                } catch (ClassNotFoundException | SQLException e) {
-                   System.out.println("CONNECTEZ-VOUS SUR WAMP !!!!!!!!!!!!!! (fail connexion to db)");
-                }
-            }else{
-                System.out.println("Vos identifiants sont incorrects.");
-                System.out.println(log_in.getNameBDD());
-                System.out.println(log_in.getLogin());
-                System.out.println(log_in.getPasswordBDD());
-            }
+        {
+            //******************ceci est la connexion à la DB locale
+            try {                
+                System.out.println("connection à la db");
+                co_bdd=new Connexion(log_in.getNameBDD(), log_in.getLogin(), log_in.getPasswordBDD()); //ctor de Connexion
+            } catch (ClassNotFoundException | SQLException e) {
+               System.out.println("CONNECTEZ-VOUS SUR WAMP !!!!!!!!!!!!!! (fail connexion to db)");
+            }            
             
             //on instancie nos panels que l'on va utiliser plus tard
             search_pan=new Search(co_bdd);
@@ -162,5 +154,14 @@ public class Graphic extends JFrame {
    
     public Menu getMenu()   {
         return main_menu; }
-        
+    
+    public boolean getIdentifiants() {
+        return identifiants;
+    }
+    
+    /** SETTERS */
+     public void setIdentifiants(boolean identifiants) {
+        this.identifiants = identifiants;
+    }
+    
 }

@@ -47,12 +47,28 @@ public class Controler implements ActionListener{
         }
     */
    
-        //si l'object que l'on a récupéré c'est le bouton valider de la page login
+        //si l'object que l'on a récupéré c'est le bouton valider de la page login et que le login est valide
         if (source==vue.getLogIn().getSubmit())
         {
-            System.out.println("click sur le bouton valider du panel de connection");
-            vue.goToMenu("valider_connection"); //on appelle la methode dans "Graphic"
-            //& on lui envoie un String pour savoir sur quel bouton on a appuyé  
+            // Conditions d'entrée à la BDD 
+           // On recupere les infos que l'on entre sur la page d'accueil
+            if((vue.getLogIn().getNameBDD() == "hopital") )
+            {
+                vue.setIdentifiants(true);
+            }
+            
+            if(vue.getIdentifiants() == true)
+            {
+                System.out.println("click sur le bouton valider du panel de connection");
+                vue.goToMenu("valider_connection"); //on appelle la methode dans "Graphic"
+                // on lui envoie un String pour savoir sur quel bouton on a appuyé  
+            }else{
+                System.out.println("Identifiants incorrects");
+                System.out.println(vue.getLogIn().getNameBDD());
+                System.out.println(vue.getLogIn().getLogin());
+                System.out.println(vue.getLogIn().getPasswordBDD());
+                System.out.println(vue.getIdentifiants());
+            }
         }
         
          if (source==vue.getMenu().getSearch() )
