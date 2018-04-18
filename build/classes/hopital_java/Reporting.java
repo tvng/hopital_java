@@ -25,6 +25,7 @@ import javax.swing.*;
 
 import org.jfree.chart.*; //librairie pour les graphiques
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
@@ -75,8 +76,6 @@ public class Reporting extends JPanel{
             System.out.println("erreur");
             Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
         }
-             
-        System.out.println(al);
         
         //on crée un objet qui contiendra toutes nos données
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -194,7 +193,7 @@ public class Reporting extends JPanel{
 
         JFreeChart nb_mal_mut; //nombre de malades par mutuelle
         //donc on crée notre pie chart
-        nb_mal_mut = ChartFactory.createPieChart("Nombre de malades par mutuelles", // chart title  
+        nb_mal_mut = ChartFactory.createPieChart3D("Nombre de malades par mutuelles", // chart title  
         dataset3, // data
         true, // include legend
         true, // tooltips?
@@ -205,5 +204,87 @@ public class Reporting extends JPanel{
         ChartPanel nb_mal_mut_panel = new ChartPanel(nb_mal_mut, false);
         //on ajoute au panel actuel
         this.add(nb_mal_mut_panel);  
+        
+        
+
+       
+        
+        // ********** Graphique du nombre d'infirmiers le jour par rapport a leur specialite ********** ///
+        // on va utiliser un pie chart
+        ArrayList <String> al4 = new ArrayList<>();
+
+        try {
+            al4 = co_bdd.remplirChampsRequete("SELECT COUNT(numero), code_service FROM infirmier WHERE rotation = 'JOUR' GROUP BY code_service");
+            
+        } catch (SQLException ex) {
+            System.out.println("erreur");
+            Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        // create a dataset   
+        DefaultPieDataset dataset4 = new DefaultPieDataset();
+        
+        for (int i=0; i<al4.size(); i++)
+        {
+            String[] splitted;
+            //on utilise la fonction "split" et on sépare notre string sur la 'virgule' du string de l'arraylist 
+            splitted = al4.get(i).split(",");
+            dataset4.setValue(splitted[1], Integer.parseInt(splitted[0]));
+        }
+
+        JFreeChart nb_inf_jour; // nombre d'infirmiers le jour par rapport a leur specialite
+        //donc on crée notre pie chart
+        nb_inf_jour = ChartFactory.createPieChart("Nombre d'infirmiers le jour par rapport a leur specialite", // chart title  
+        dataset4, // data
+        true, // include legend
+        true, // tooltips?
+        false // URLs?
+        );
+        
+        //on affiche, faut creer un objet de type "ChartPanel"
+        ChartPanel nb_inf_jour_panel = new ChartPanel(nb_inf_jour, false);
+        //on ajoute au panel actuel
+        this.add(nb_inf_jour_panel); 
+        
+        
+        
+        
+        
+        // ********** Graphique du nombre d'infirmiers la nuit par rapport a leur specialite ********** ///
+        // on va utiliser un pie chart
+        ArrayList <String> al5 = new ArrayList<>();
+
+        try {
+            al5 = co_bdd.remplirChampsRequete("SELECT COUNT(numero), code_service FROM infirmier WHERE rotation = 'NUIT' GROUP BY code_service");
+            
+        } catch (SQLException ex) {
+            System.out.println("erreur");
+            Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        // create a dataset    
+        DefaultPieDataset dataset5 = new DefaultPieDataset();
+        
+        for (int i=0; i<al5.size(); i++)
+        {
+            String[] splitted;
+            //on utilise la fonction "split" et on sépare notre string sur la 'virgule' du string de l'arraylist 
+            splitted = al5.get(i).split(",");
+            dataset5.setValue(splitted[1], Integer.parseInt(splitted[0]));
+        }
+
+        JFreeChart nb_inf_nuit; // nombre d'infirmiers la nuit par rapport a leur specialite
+        //donc on crée notre pie chart
+        nb_inf_nuit = ChartFactory.createPieChart("Nombre d'infirmiers la nuit par rapport a leur specialite", // chart title  
+        dataset5, // data
+        true, // include legend
+        true, // tooltips?
+        false // URLs?
+        );
+        
+        //on affiche, faut creer un objet de type "ChartPanel"
+        ChartPanel nb_inf_nuit_panel = new ChartPanel(nb_inf_nuit, false);
+        //on ajoute au panel actuel
+        this.add(nb_inf_nuit_panel);
     }
 }
