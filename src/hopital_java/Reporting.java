@@ -13,17 +13,22 @@ package hopital_java;
 
 import controler.ControlerModule;
 import db.Connexion;
+import java.awt.Color;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.chart.PieChart;
 
 import javax.swing.*;
 
 import org.jfree.chart.*; //librairie pour les graphiques
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+
+import org.jfree.data.general.PieDataset;
 
 
 /**
@@ -163,8 +168,42 @@ public class Reporting extends JPanel{
         
         
         
+         // ********** Graphique du  nombre de malade par mutuelle ********** ///
+        // on va utiliser un pie chart
         
+        ArrayList <String> al3 = new ArrayList<>();
+
+        try {
+            al3 = co_bdd.remplirChampsRequete("SELECT COUNT(numero), mutuelle FROM malade GROUP BY mutuelle");
+            
+        } catch (SQLException ex) {
+            System.out.println("erreur");
+            Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
+        // create a dataset     
+        DefaultPieDataset dataset3 = new DefaultPieDataset();
+        
+        for (int i=0; i<al3.size(); i++)
+        {
+            String[] splitted;
+            //on utilise la fonction "split" et on sépare notre string sur la 'virgule' du string de l'arraylist 
+            splitted = al3.get(i).split(",");
+            dataset3.setValue(splitted[1], Integer.parseInt(splitted[0]));
+        }
+
+        JFreeChart nb_mal_mut; //nombre de malades par mutuelle
+        //donc on crée notre pie chart
+        nb_mal_mut = ChartFactory.createPieChart("Nombre de malades par mutuelles", // chart title  
+        dataset3, // data
+        true, // include legend
+        true, // tooltips?
+        false // URLs?
+        );
+        
+        //on affiche, faut creer un objet de type "ChartPanel"
+        ChartPanel nb_mal_mut_panel = new ChartPanel(nb_mal_mut, false);
+        //on ajoute au panel actuel
+        this.add(nb_mal_mut_panel);  
     }
-    
 }
