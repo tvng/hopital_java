@@ -64,6 +64,8 @@ public class Graphic extends JFrame {
         
         //on ajoute un listener au bouton "valider" de notre panneau login
         log_in.getSubmit().addActionListener(ctrl);
+        log_in.getLocal().addActionListener(ctrl);
+        log_in.getDistant().addActionListener(ctrl);
         
         //on instancie le menu pour lui mettre des actionlistener
         main_menu=new Menu();

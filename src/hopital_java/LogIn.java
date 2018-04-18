@@ -39,6 +39,7 @@ public class LogIn extends JPanel{
     
     private JButton submit;
 
+    GridBagConstraints grid;
     
     public LogIn()
     {
@@ -50,14 +51,14 @@ public class LogIn extends JPanel{
         Dimension dimension = new Dimension(200, 40); //pour la taille des labels et machins
         
         //boutons radio
-        local = new JRadioButton("connection locale", true); //on coche celui la par defaut
-        distant = new JRadioButton("connection distante");
+        local = new JRadioButton("connection locale"); //on coche celui la par defaut
+        distant = new JRadioButton("connection distante", true);
         
         //partie avec rentree d'informations
         lab_nameBDD=new JLabel("Nom de la BDD :");
         lab_passwordBDD=new JLabel("Mot de passe de la BDD :");
         lab_login=new JLabel("ID :");
-        lab_password=new JLabel("Mot de passe ECE (laisser vide si co' locale) :");
+        lab_password=new JLabel("Mot de passe ECE :");
         
         //instanciation des zones de txt
         nameBDD=new JTextField();
@@ -83,7 +84,7 @@ public class LogIn extends JPanel{
         //  **** STRUCTURE *****  Positionnement des objets sur la page d'accueil de connection 
         
         //pour créer un layout, une structure sur le panel 
-        GridBagConstraints grid=new GridBagConstraints();    //c'est léquivalent d'un tab en html
+        grid=new GridBagConstraints();    //c'est léquivalent d'un tab en html
         
         //on doit ajouter les boutons radio a un groupe pour qu'ils soient a choix unique
         ButtonGroup buttgroup = new ButtonGroup(); 
@@ -151,6 +152,29 @@ public class LogIn extends JPanel{
         
         
     }
+    
+    public void runLogInLocal(){
+        this.remove(password);
+        this.remove(lab_password);
+        
+        this.revalidate();
+        this.repaint();
+    }
+    
+    public void runLogInDistant(){    
+        grid.gridx = 0;
+        grid.gridy = 5;
+        grid.anchor = GridBagConstraints.LINE_END;//on aligne a droite
+        this.add(lab_password, grid);
+        
+        grid.anchor = GridBagConstraints.LINE_START;
+        grid.gridx = 1;
+        grid.gridy=5;
+        this.add(password, grid);
+        
+        this.revalidate();
+        this.repaint();
+    }
 
     /** GETTERS
      * @return le texte entre dans les champs */
@@ -173,6 +197,14 @@ public class LogIn extends JPanel{
 
     public String getPassword() {
         return password.getText();
+    }
+    
+    public JRadioButton getLocal(){
+        return local;
+    }
+    
+    public JRadioButton getDistant(){
+        return distant;
     }
     
 }
