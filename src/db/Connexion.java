@@ -31,6 +31,9 @@ public class Connexion {
     private Statement stmt;
     private ResultSet rset;
     private ResultSetMetaData rsetMeta;
+    
+    private PreparedStatement ps;
+    
     /**
      * ArrayList public pour les tables
      */
@@ -214,38 +217,11 @@ public class Connexion {
         stmt.executeUpdate(requeteMaj);
     }
     
-    public ArrayList ajouterChamp(String requete) throws SQLException {
+    public void ajouterChamp(String requete) throws SQLException {
         System.out.println("blob");
+        ps=conn.prepareStatement(requete);
+        ps.executeUpdate();
         
-        ArrayList<String> liste;
-        liste = new ArrayList<String>();
-        // récupération de l'ordre de la requete
-        rset = stmt.executeQuery(requete);
-
-        // récupération du résultat de l'ordre
-        rsetMeta = rset.getMetaData();
-
-        // calcul du nombre de colonnes du resultat
-        int nbColonne = rsetMeta.getColumnCount();
-
-        // tant qu'il reste une ligne 
-        while (rset.next()) {
-            String champs;
-            champs = rset.getString(1); // ajouter premier champ
-
-            // Concatener les champs de la ligne separes par ,
-            for (int i = 1; i < nbColonne; i++) {
-                champs = champs + "," + rset.getString(i + 1);
-            }
-
-            // ajouter un "\n" à la ligne des champs
-    //        champs = champs + "\n";  /************************ askip enlever le \n pourrait sauver des vies */
-
-            // ajouter les champs de la ligne dans l'ArrayList
-            liste.add(champs);
-        }
-        
-        return liste;
     }
     
 }
