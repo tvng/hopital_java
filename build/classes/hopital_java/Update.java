@@ -24,7 +24,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.border.LineBorder;
 /**
  *
- * @author Tao Tuong Vi
+ * @author DUCRET Amandine, PAGES Hermance, TAO Tuong Vi
  */
 public class Update extends JPanel{
     
@@ -107,23 +107,23 @@ public class Update extends JPanel{
         panelinfo.add(txtTel);
                 
         JLabel label = new JLabel("Nom : ");
-        label.setBounds(20, 30, 46, 14);
+        label.setBounds(20, 30, 70, 14);
         panelinfo.add(label);
         
         JLabel label_1 = new JLabel("Prenom : ");
-        label_1.setBounds(20, 60, 46, 14);
+        label_1.setBounds(20, 60, 70, 14);
         panelinfo.add(label_1);
         
         JLabel label_2 = new JLabel("Adresse : ");
-        label_2.setBounds(20, 90, 46, 14);
+        label_2.setBounds(20, 90, 70, 14);
         panelinfo.add(label_2);
         
         JLabel label_3 = new JLabel("Numero : ");
-        label_3.setBounds(20, 120, 46, 14);
+        label_3.setBounds(20, 120, 70, 14);
         panelinfo.add(label_3);
         
         JLabel label_4 = new JLabel("Telephone : ");
-        label_4.setBounds(20, 150, 46, 14);
+        label_4.setBounds(20, 150, 70, 14);
         panelinfo.add(label_4);
         
         //JList list = new JList();

@@ -26,7 +26,7 @@ import javax.swing.border.TitledBorder;
 
 /**
  *
- * @author Tao Tuong Vi
+ * @author DUCRET Amandine, PAGES Hermance, TAO Tuong Vi
  */
 public class Search extends JPanel {
 

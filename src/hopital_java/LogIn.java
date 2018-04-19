@@ -51,8 +51,8 @@ public class LogIn extends JPanel{
         Dimension dimension = new Dimension(200, 40); //pour la taille des labels et machins
         
         //boutons radio
-        local = new JRadioButton("connection locale"); //on coche celui la par defaut
-        distant = new JRadioButton("connection distante", true);
+        local = new JRadioButton("connection locale");
+        distant = new JRadioButton("connection distante", true); //on coche celui la par defaut
         
         //partie avec rentree d'informations
         lab_nameBDD=new JLabel("Nom de la BDD :");

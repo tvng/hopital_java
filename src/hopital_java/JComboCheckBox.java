@@ -13,7 +13,7 @@ import java.util.*;
 
 /**
  *
- * @author Hermance
+ * @author DUCRET Amandine, PAGES Hermance, TAO Tuong Vi
  */
 
 public class JComboCheckBox extends JComboBox
