@@ -67,6 +67,17 @@ public class Controler implements ActionListener{
             }
         }
         
+        if (source == vue.getLogIn().getLocal()){
+            System.out.println("BDD Local");
+            vue.getLogIn().runLogInLocal();
+        }
+       
+        
+        if (source == vue.getLogIn().getDistant()){
+            System.out.println("BDD Distante");
+            vue.getLogIn().runLogInDistant();
+        }
+        
          if (source==vue.getMenu().getSearch() )
         {
             System.out.println("click sur le bouton recherche du menu");

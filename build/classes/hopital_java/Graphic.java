@@ -64,6 +64,8 @@ public class Graphic extends JFrame {
         
         //on ajoute un listener au bouton "valider" de notre panneau login
         log_in.getSubmit().addActionListener(ctrl);
+        log_in.getLocal().addActionListener(ctrl);
+        log_in.getDistant().addActionListener(ctrl);
         
         //on instancie le menu pour lui mettre des actionlistener
         main_menu=new Menu();
@@ -92,8 +94,8 @@ public class Graphic extends JFrame {
             }            
             
             //on instancie nos panels que l'on va utiliser plus tard
-            search_pan=new Search(co_bdd);
-            update_pan=new Update(co_bdd);
+            //search_pan=new Search(co_bdd);
+            //update_pan=new Update(co_bdd);
             reporting_pan=new Reporting(co_bdd);
             
             //on ajoute à un JSplitPane nos panels : en haut le menu, en bas notre panel
@@ -121,15 +123,18 @@ public class Graphic extends JFrame {
             revalidate();  //pour reafficher
           */
              //on enleve le pan du bas
-            split_pane.remove(split_pane.getBottomComponent());
-            split_pane.setBottomComponent(search_pan); //pour le remplacer par le pan de recherche
+             search_pan=new Search(co_bdd);
+            //split_pane.remove(split_pane.getBottomComponent());
+            //split_pane.setBottomComponent(search_pan); //pour le remplacer par le pan de recherche
         }
          
         if ("menu_MAJ".equals(_command))
         {
             //on enleve le pan du bas
-            split_pane.remove(split_pane.getBottomComponent());
-            split_pane.setBottomComponent(update_pan); //pour le remplacer par le pan de recherche
+            //split_pane.remove(split_pane.getBottomComponent());
+            //split_pane.setBottomComponent(update_pan); //pour le remplacer par le pan de recherche
+            
+            update_pan=new Update(co_bdd);
         }
          
          if ("menu_generer".equals(_command))

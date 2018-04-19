@@ -187,13 +187,9 @@ public class Search extends JPanel {
            Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-    
-        
-       
-
-        /*for(String a : al){
+        for(String a : al){
             textArea.append(a+"\n");
-        }*/
+        }
 
         frame.revalidate();
         frame.repaint();
@@ -207,10 +203,14 @@ public class Search extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         
-        //submit_search=new JButton("Valider");
-        //submit_search.setBounds(250, 342, 90, 30);
-        //submit_search.addActionListener(ctrl);
-        //frame.getContentPane().add(submit_search);
+        submit_search=new JButton("Valider");
+        submit_search.setBounds(250, 342, 90, 30);
+        submit_search.addActionListener(ctrl);
+        frame.getContentPane().add(submit_search);
+        
+        textArea = new JTextArea(" ");
+        textArea.setBounds(30, 500, 500, 30);
+        frame.getContentPane().add(textArea);
         
         panelinfo = new JPanel();
         panelinfo.setBorder(new TitledBorder(null, "information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
