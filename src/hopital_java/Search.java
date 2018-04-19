@@ -34,7 +34,6 @@ public class Search extends JPanel {
     private JButton submit_search; 
     private ControlerModule ctrl;
     
-    private JFrame frame;
     private JPanel panelinfo;
     private JPanel panelsearch;
     private JComboBox cboTable;
@@ -83,6 +82,7 @@ public class Search extends JPanel {
     {
         co_bdd=co; //on a la base de donnee
         ctrl=new ControlerModule(this);
+     
         
        
         //submit_search=new JButton("Lancer la recherche");
@@ -191,77 +191,50 @@ public class Search extends JPanel {
             textArea.append(a+"\n");
         }
 
-        frame.revalidate();
-        frame.repaint();
+        this.revalidate();
+        this.repaint();
         System.out.println(al);
     }
     
     public void searchGrid(){
-               
-        frame=new JFrame("Formulaire de recherche");
-        frame.setBounds(100, 100, 800, 700);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(null);
         
-        submit_search=new JButton("Valider");
-        submit_search.setBounds(250, 342, 90, 30);
-        submit_search.addActionListener(ctrl);
-        frame.getContentPane().add(submit_search);
-        
-        textArea = new JTextArea(" ");
-        textArea.setBounds(30, 500, 500, 30);
-        frame.getContentPane().add(textArea);
+        //layout BoxLayout
+        //le "PAGE_AXIS" permet d'afficher tout a la suite verticalement
+        //pour tout afficher horizontalement c'est LINE_AXIS
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         
         panelinfo = new JPanel();
         panelinfo.setBorder(new TitledBorder(null, "information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelinfo.setBounds(10, 10, 760, 430);
+        panelinfo.setBounds(10, 10, 760, 1000);
         
-        frame.getContentPane().add(panelinfo);
-        panelinfo.setLayout(null);
+        this.add(panelinfo);
         
         panelsearch = new JPanel();
         panelsearch.setBorder( new TitledBorder(null, "Search", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panelsearch.setBounds(10, 450, 760, 200);
-        frame.getContentPane().add(panelsearch);
-        panelsearch.setLayout(null);
-        JButton button=new JButton(
-        //textArea = new JTextArea(
-    "Taaaa " );
+        this.add(panelsearch);
+ 
+        /*JButton button=new JButton();
+        textArea = new JTextArea("Taaaa " );
         button.setBounds(250, 342, 90, 30);
-        frame.getContentPane().add(button);
+        this.add(button);*/
         
         
-        nameTable=new JLabel("Vous recherchez dans la table : ");
+        nameTable=new JLabel("Vous recherchez une information dans la table : ");
         nameTable.setBounds(30, 20, 200, 20);
         panelinfo.add(nameTable);
         
-        employe= new JCheckBox("employe", false);
-        docteur= new JCheckBox("docteur", false);
-        soigne= new JCheckBox("soigne", false);
-        hospitalisation= new JCheckBox("hospitalisation", false);
-        malade= new JCheckBox("malade", false);
-        infirmier= new JCheckBox("infirmier", false);
-        chambre= new JCheckBox("chambre", false);
-        service= new JCheckBox("service", false);
+        // On cree un tableau de string et on le met dans une ComboBox
+        String[] table = {"employe","docteur","soigne","hospitalisation","malade","infirmier","chambre","service"};
         
-        Vector v = new Vector();
-      //v.add("Europe");
-      v.add(employe);
-      v.add(docteur);
-      v.add(soigne);
-      //v.add("United States");
-      v.add(hospitalisation);
-      v.add(malade);
-      v.add(infirmier);
-      v.add(chambre);
-      v.add(service);
-  
-      //panelinfo.add(new JComboCheckBox(v));
+        JComboBox<String> combotable = new JComboBox<>(table);
+        combotable.setBounds(250, 20, 100, 20);
+        panelinfo.add(combotable);
         
-        cboTable = new JComboCheckBox(v);
-        cboTable.setBounds(250, 20, 100, 20);
-        panelinfo.add(cboTable);
-               
+        // Recuperer les infos
+        String selectedTable = (String) combotable.getSelectedItem();
+        System.out.println("Vous avez selectionne la table : " + selectedTable);
+
         lab_search=new JLabel("Les identifiants : ");
         lab_search.setBounds(30, 60, 200, 20);
         panelinfo.add(lab_search);
@@ -409,9 +382,17 @@ public class Search extends JPanel {
         fonction= new JTextField();
         fonction.setBounds(250, 300, 150, 20);
         panelinfo.add(fonction);
+        
+        submit_search=new JButton("Valider");
+        submit_search.setBounds(250, 342, 90, 30);
+        submit_search.addActionListener(ctrl);
+        this.add(submit_search);
+        
+        textArea = new JTextArea(" ");
+        textArea.setBounds(30, 500, 500, 30);
+        this.add(textArea);
 
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        this.setVisible(true);
         
     }
     
