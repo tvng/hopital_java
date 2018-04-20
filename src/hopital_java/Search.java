@@ -83,28 +83,20 @@ public class Search extends JPanel {
         co_bdd=co; //on a la base de donnee
         ctrl=new ControlerModule(this);
      
-        
-       
         //submit_search=new JButton("Lancer la recherche");
         //submit_search.addActionListener(ctrl);
-        
-        
-        //run_search();
+     
         searchGrid();
         
     }
     
     /** */
-    public void run_search()
-    {
-        this.add(new JTextField("mutuelle"));
-        this.add(submit_search);
-    }
+
     
     /** */
     public void request()
     {
-        System.out.println("REqQQQQUEST (debug a effacer)");
+        System.out.println("REquEST (debug a effacer)");
         String table="";
         String selection="";
         if(employe.isSelected()){
@@ -205,13 +197,16 @@ public class Search extends JPanel {
         
         panelinfo = new JPanel();
         panelinfo.setBorder(new TitledBorder(null, "information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelinfo.setBounds(10, 10, 760, 1000);
+        panelinfo.setBounds(10, 10, 760, 1000);    
+        panelinfo.setPreferredSize(new Dimension(this.getWidth(), 200));
         
         this.add(panelinfo);
         
         panelsearch = new JPanel();
+        
         panelsearch.setBorder( new TitledBorder(null, "Search", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelsearch.setBounds(10, 450, 760, 200);
+        panelsearch.setBounds(10, 450, 760, 200); 
+        panelsearch.setPreferredSize(new Dimension(this.getWidth(), 200));
         this.add(panelsearch);
  
         /*JButton button=new JButton();

@@ -54,7 +54,7 @@ public class Graphic extends JFrame {
         ctrl = new Controler (this); //on lie à un controlleur
         
         setTitle("PROJET S6 - DUCRUET PAGES TAO");
-        setSize(800, 600); //size of the frame
+        setSize(1024, 768); //size of the frame
      
         //On instancie les classes
         log_in=new LogIn();
