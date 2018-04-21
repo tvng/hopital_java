@@ -15,6 +15,7 @@ import java.awt.Insets;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -60,7 +61,7 @@ public class Search extends JPanel {
     
     //pour faire des recherches 
     private JTextField tf_nom, tf_prenom;  //Docteur, Infirmier, Malade 
-    private JTextField tf_mutuelle, tf_nb_soignants;//malade
+    private JTextField tf_mutuelle;//, tf_nb_soignants;//malade
     private JTextField tf_nb_soignes; //docteur
     private JComboBox cb_rotation; //infirmier : blank, JOUR, NUIT
     
@@ -136,17 +137,17 @@ public class Search extends JPanel {
         specialite= new JCheckBox("specialite", false);  //doc
         nb_soignes= new JCheckBox("nb de soignes", false);  //Docteur
         
-        code_service= new JCheckBox("code service", false); 
+        code_service= new JCheckBox("code_service", false); 
         rotation= new JCheckBox("rotation", false);
         salaire= new JCheckBox("salaire", false);  //infirmier
     
-        nom_service= new JCheckBox("nom du service", false);
+        nom_service= new JCheckBox("nom_service", false);
         batiment= new JCheckBox("batiment", false); 
         directeur= new JCheckBox("directeur", false);  //service
         
-        code_service_ch= new JCheckBox("code service", false); 
-        no_ch= new JCheckBox("numero de chambre", false); 
-        nb_lits= new JCheckBox("nombre de lits", false);  //chambre
+        code_service_ch= new JCheckBox("code_service_ch", false); 
+        no_ch= new JCheckBox("no_ch", false); 
+        nb_lits= new JCheckBox("nb_lits", false);  //chambre
     
     
     //pour faire des recherches 
@@ -156,14 +157,14 @@ public class Search extends JPanel {
         tf_nom=new JTextField(); //Docteur, Infirmier, Malade 
         tf_prenom=new JTextField();//Docteur, Infirmier, Malade         
         tf_mutuelle=new JTextField();//malade
-        tf_nb_soignants=new JTextField();//malade
-        tf_nb_soignes=new JTextField();//doc
+//        tf_nb_soignants=new JTextField();//malade
+       // tf_nb_soignes=new JTextField();//doc
         
         tf_nom.setPreferredSize(d);
         tf_prenom.setPreferredSize(d);
         tf_mutuelle.setPreferredSize(d);
-        tf_nb_soignants.setPreferredSize(d);
-        tf_nb_soignes.setPreferredSize(d);
+  //      tf_nb_soignants.setPreferredSize(d);
+     //   tf_nb_soignes.setPreferredSize(d);
         
         
         String[] t = {"","JOUR", "NUIT"};
@@ -193,25 +194,41 @@ public class Search extends JPanel {
     }
     
     
+    
+    public String generate_where(String sn, String sc, boolean b)
+    {
+        String where="";
+        
+        //sn pour name et sc pour contenu
+        if (b==true)
+        {
+            where+= " AND ";
+        }
+                
+        where+= sn + "= '" + sc + "'";
+        
+        return where;
+        
+    }
     /** */
     public void request()
     {
         
         System.out.println("REquEST (debug a effacer)");
-        Queue <String> selection = new PriorityQueue<>();
+        Queue <String> selection = new LinkedList<>();
         String select="";
-        // SELECT selection concatener (a faire)
-        // FROM table_selected
-        // WHERE table
-        
+        String from=table_selected;
+        String where="";
+        boolean bool_where=false; //false = premier "where" entré, //true = y'a déjà eu un
+        String innerjoin="";
+        String groupby="";
         
         ArrayList <String> al=new ArrayList<>();
       
         
-        System.out.println("TABLE SELECTEd" + table_selected);
         if (table_selected=="malade" || table_selected=="docteur" || table_selected=="infirmier")
         {
-            System.out.println("woop");
+            
             // SELECT * 
             if(numero.isSelected()){selection.add(numero.getText());}
             if(nom.isSelected()){selection.add(nom.getText());}
@@ -219,136 +236,139 @@ public class Search extends JPanel {
             if(adresse.isSelected()){selection.add(adresse.getText());}
             if(tel.isSelected()){selection.add(tel.getText());}
             
-            
-            //mettre en string le select
-            
-            
+           
             //for each jtextfield get value
+            if (!tf_nom.getText().isEmpty())
+            {  
+                where+= generate_where("nom", tf_nom.getText(), bool_where);
+                bool_where=true;
+            }
+            
+            if (!tf_prenom.getText().isEmpty())
+            {
+                where+= generate_where("prenom", tf_prenom.getText(), bool_where);
+                bool_where=true;  
+            }
+            
+            if (table_selected=="malade")
+            {
+                if(mutuelle.isSelected()){selection.add(mutuelle.getText());}
+                if(nb_soignants.isSelected()) //alors la c'est la merde
+                { 
+                    
+                    // requete sql 
+                  /*  SELECT nom, prenom, COUNT(no_docteur)
+                    FROM malade 
+                    INNER JOIN soigne ON malade.numero=soigne.no_malade
+                    GROUP BY no_malade 
+                    */
+                    selection.add("COUNT(no_docteur)");
+                    innerjoin=" INNER JOIN soigne ON malade.numero=soigne.no_malade ";
+                    groupby="no_malade";
+                }
+                
+                 //for each jtextfield get value
+                if (!tf_mutuelle.getText().isEmpty())
+                {  
+                    where+= generate_where("mutuelle", tf_mutuelle.getText(), bool_where);
+                    bool_where=true;
+                }
+                
+            }
+            else if (table_selected=="docteur")
+            {
+                innerjoin+=" INNER JOIN employe ON docteur.numero=employe.numero ";
+                if(specialite.isSelected()){selection.add(specialite.getText());}
+                if(nb_soignes.isSelected())
+                { 
+                    
+                    // requete sql 
+                     /*  SELECT nom, prenom, COUNT(no_malade) FROM employe
+                      INNER JOIN docteur ON docteur.numero=employe.numero
+                      INNER JOIN soigne ON employe.numero=soigne.no_docteur
+                      GROUP BY no_docteur
+                    */
+                    selection.add("COUNT(no_malade)");
+                    innerjoin+=" INNER JOIN soigne ON employe.numero=soigne.no_docteur ";
+                    groupby="no_docteur";
+                }
+            }
+            else if (table_selected=="infirmier")
+            {
+                
+                innerjoin+=" INNER JOIN employe ON infirmier.numero=employe.numero ";
+                if(code_service.isSelected()){selection.add(code_service.getText());}
+                if(salaire.isSelected()){selection.add(salaire.getText());}
+                
+                
+                if(rotation.isSelected()){selection.add(rotation.getText());}
+                if (!cb_rotation.getSelectedItem().equals(""))
+                {
+                    where+= generate_where("rotation", cb_rotation.getSelectedItem().toString(), bool_where);
+                    bool_where=true; 
+                }
+        
+                
+            }
+            
+            
         }
         
-        int s_size=selection.size();///je prend ici sinon ça va diminuer au fil du temps 
+      
         if (!selection.isEmpty())
         {
+              // MISE EN FORME DU "SELECT" ___________________________
+            int s_size=selection.size();///je prend ici sinon ça va diminuer au fil du temps 
+            
             
             if (s_size==1)
             {
-                select=selection.remove();
+                select=selection.poll();
             }
             else {
                 //on enleve tout
+                
+                select+=selection.poll();
                 for (int i=0; i<s_size-1; i++)
                 {
-                    select+=selection.remove();
-                    select += ", ";
+                    
+                    select += ", ";                                   
+                    select+= selection.poll();
                 }
-                //jusqu'au dernier
-                select+= selection.remove();
+
             }
             
             try {
-   
-            al=co_bdd.remplirChampsRequete("SELECT "+select+ " FROM "+table_selected);
-               System.out.println(al);
+                String sql_final;
+                sql_final="SELECT " + select + " FROM " + from;
+                
+                if (innerjoin!="")
+                { sql_final+= innerjoin;}
+                
+                if (where!="")
+                {
+                    sql_final+= " WHERE " + where;
+                }
+                
+                if (groupby!="")
+                {
+                  sql_final+=" GROUP BY " + groupby;   
+                }
+                
+                    System.out.println(sql_final);
             
+                 al=co_bdd.remplirChampsRequete(sql_final);
+                
+                    System.out.println(al);
+            
+                    
+                    
             } catch (SQLException ex) {
                 System.out.println("erreur");
                 Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
             } 
         
         }
-       
-       
-     /*   if(employe.isSelected()){
-            
-            System.out.println("eeeeeeeeeeee");
-            table=employe.getText();
-            
-            if(numero.isSelected()){selection=numero.getText();}
-            if(nom.isSelected()){selection=nom.getText();}
-            if(prenom.isSelected()){selection=prenom.getText();}
-            if(adresse.isSelected()){selection=adresse.getText();}
-            if(tel.isSelected()){selection=tel.getText();}
-        }
-        
-        if(docteur.isSelected()){ 
-            table=docteur.getText();
-            
-            if(numero_doc.isSelected()){selection=numero_doc.getText();}
-            if(specialite.isSelected()){selection=specialite.getText();}
-        }
-        if(service.isSelected()){
-            table=docteur.getText();
-            
-            if(code.isSelected()){selection=code.getText();}
-            if(nom_service.isSelected()){selection=nom_service.getText();}
-            if(batiment.isSelected()){selection=batiment.getText();}
-            if(directeur.isSelected()){selection=directeur.getText();}
-        }
-        
-        if(infirmier.isSelected()){
-            table=employe.getText();
-            
-            if(numero_inf.isSelected()){selection=numero_inf.getText();}
-            if(code_service.isSelected()){selection=code_service.getText();}
-            if(rotation.isSelected()){selection=rotation.getText();}
-            if(salaire.isSelected()){selection=salaire.getText();}
-        }
-        if(chambre.isSelected()){
-            table=chambre.getText();
-            
-            if(code_service_ch.isSelected()){selection=numero.getText();}
-            if(no_ch.isSelected()){selection=no_ch.getText();}
-            if(nb_lits.isSelected()){selection=nb_lits.getText();}
-        }
-        
-        if(malade.isSelected()){
-            table=malade.getText();
-            
-            if(no_malade.isSelected()){selection=no_malade.getText();}
-            if(nom_malade.isSelected()){selection=nom_malade.getText();}
-            if(prenom_malade.isSelected()){selection=prenom_malade.getText();}
-            if(adresse_malade.isSelected()){selection=adresse_malade.getText();}
-            if(tel_malade.isSelected()){selection=tel_malade.getText();}
-            if(mutuelle.isSelected()){selection=mutuelle.getText();}
-        }
-        
-        if(hospitalisation.isSelected()){
-            table=hospitalisation.getText();
-            
-            if(no_malade_hosp.isSelected()){selection=no_malade_hosp.getText();}
-            if(code_service_hosp.isSelected()){selection=code_service_hosp.getText();}
-            if(no_chambre_hosp.isSelected()){selection=no_chambre_hosp.getText();}
-            if(lit_hosp.isSelected()){selection=lit_hosp.getText();}
-        }
-        
-        if(soigne.isSelected()){
-            table=soigne.getText();
-            
-            if(no_docteur_soigne.isSelected()){selection=no_docteur_soigne.getText();}
-            if(no_malade_soigne.isSelected()){selection=no_malade_soigne.getText();}
-        }
-        
-        //on a une arraylist qui contient la tab recuperee par la requete sql
-        ArrayList <String> al=new ArrayList<>();
-
-
-        try {
-            //on entre une requete SQL (cf le Cahier des charges)
-            al=co_bdd.remplirChampsRequete("SELECT "+selection+ " FROM "+table+" WHERE prenom = 'Marat' ");
-        } catch (SQLException ex) {
-             System.out.println("erreur");
-           Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        for(String a : al){
-            textArea.append(a+"\n");
-        }
-
-        this.revalidate();
-        this.repaint();
-        System.out.println(al);
-        
-        */
     }
     
     public void changeTable(String _table)
@@ -406,7 +426,7 @@ public class Search extends JPanel {
                 grid.gridx = 0;
                 pi2.add(nb_soignants, grid);
                 grid.gridx = 1;
-                pi2.add(tf_nb_soignants, grid);
+//                pi2.add(tf_nb_soignants, grid);
                
                 grid.gridy = 7; 
                 grid.gridx = 0;
@@ -427,7 +447,7 @@ public class Search extends JPanel {
                 grid.gridx = 0;
                 pi2.add(nb_soignes, grid);
                 grid.gridx = 1;
-                pi2.add(tf_nb_soignes, grid);
+//                pi2.add(tf_nb_soignes, grid);
             }
             else if(_table=="Infirmier")
             {
@@ -447,6 +467,15 @@ public class Search extends JPanel {
         }
         
         
+        if (_table=="Service")
+        {
+            table_selected="service";
+        }
+        
+        if (_table=="Chambre")
+        {
+            table_selected="chambre";
+        }
         pi2.repaint();
         pi2.revalidate();
         
