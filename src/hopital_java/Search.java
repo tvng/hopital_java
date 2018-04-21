@@ -16,6 +16,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,6 +45,7 @@ public class Search extends JPanel {
     
     private JComboBox combotable; //j'utilise celui la pour connaitre quelle table on selectionne
     //(= ds quelle table on fait notre recherche bdd)
+    private String table_selected;
     
     //selectionner les categories que l'on veut afficher
     private JCheckBox nom, prenom, adresse, tel; //Docteur, Infirmier, Malade 
@@ -82,14 +85,13 @@ public class Search extends JPanel {
     {
         co_bdd=co; //on a la base de donnee
         ctrl=new ControlerModule(this);
-     
+        
+
         //layout BoxLayout
         //le "PAGE_AXIS" permet d'afficher tout a la suite verticalement
         //pour tout afficher horizontalement c'est LINE_AXIS
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
        
- 
-     
         //Rectangle Informations
         panelinfo = new JPanel();
         panelinfo.setLayout(new BoxLayout(panelinfo, BoxLayout.PAGE_AXIS));
@@ -132,7 +134,7 @@ public class Search extends JPanel {
         nb_soignants= new JCheckBox("nb de soignants", false); //malade
     
         specialite= new JCheckBox("specialite", false);  //doc
-        nb_soignes= new JCheckBox("nb de bsoignes", false);  //Docteur
+        nb_soignes= new JCheckBox("nb de soignes", false);  //Docteur
         
         code_service= new JCheckBox("code service", false); 
         rotation= new JCheckBox("rotation", false);
@@ -166,9 +168,7 @@ public class Search extends JPanel {
         
         String[] t = {"","JOUR", "NUIT"};
         cb_rotation = new JComboBox<>(t); //infirmier
-        
-        
-        
+       
         
         //*******
         this.add(panelinfo);
@@ -185,7 +185,7 @@ public class Search extends JPanel {
         panelinfo.add(submit_search);
 
        
-      
+        table_selected="Malade";
         changeTable("Malade"); //on affiche la table "malade" par defaut
         
         this.setVisible(true);
@@ -198,9 +198,66 @@ public class Search extends JPanel {
     {
         
         System.out.println("REquEST (debug a effacer)");
-        String table="";
-        String selection="";
+        Queue <String> selection = new PriorityQueue<>();
+        String select="";
+        // SELECT selection concatener (a faire)
+        // FROM table_selected
+        // WHERE table
         
+        
+        ArrayList <String> al=new ArrayList<>();
+      
+        
+        System.out.println("TABLE SELECTEd" + table_selected);
+        if (table_selected=="malade" || table_selected=="docteur" || table_selected=="infirmier")
+        {
+            System.out.println("woop");
+            // SELECT * 
+            if(numero.isSelected()){selection.add(numero.getText());}
+            if(nom.isSelected()){selection.add(nom.getText());}
+            if(prenom.isSelected()){selection.add(prenom.getText());}
+            if(adresse.isSelected()){selection.add(adresse.getText());}
+            if(tel.isSelected()){selection.add(tel.getText());}
+            
+            
+            //mettre en string le select
+            
+            
+            //for each jtextfield get value
+        }
+        
+        int s_size=selection.size();///je prend ici sinon ça va diminuer au fil du temps 
+        if (!selection.isEmpty())
+        {
+            
+            if (s_size==1)
+            {
+                select=selection.remove();
+            }
+            else {
+                //on enleve tout
+                for (int i=0; i<s_size-1; i++)
+                {
+                    select+=selection.remove();
+                    select += ", ";
+                }
+                //jusqu'au dernier
+                select+= selection.remove();
+            }
+            
+            try {
+   
+            al=co_bdd.remplirChampsRequete("SELECT "+select+ " FROM "+table_selected);
+               System.out.println(al);
+            
+            } catch (SQLException ex) {
+                System.out.println("erreur");
+                Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        
+        }
+       
+       
      /*   if(employe.isSelected()){
             
             System.out.println("eeeeeeeeeeee");
@@ -297,6 +354,7 @@ public class Search extends JPanel {
     public void changeTable(String _table)
     {
         grid.insets = new Insets(3, 10, 3, 10);
+       
         
         pi2.removeAll(); //on efface tout
       
@@ -312,6 +370,7 @@ public class Search extends JPanel {
         
         if (_table=="Malade" || _table=="Docteur" ||_table=="Infirmier" )
         {  
+            
             System.out.println("mdi");
             //affichage commun des nom, prenom, adresse, telephone
             grid.anchor = GridBagConstraints.LINE_END;
@@ -340,6 +399,7 @@ public class Search extends JPanel {
 
             if (_table=="Malade")
             {  
+                 table_selected="malade";
                 System.out.println(".m");
                 
                 grid.gridy = 6; 
@@ -357,7 +417,7 @@ public class Search extends JPanel {
             }
             else if (_table=="Docteur")
             {
-                
+                 table_selected="docteur";
                 System.out.println(".d");
                 grid.gridx = 0;
                 grid.gridy = 6; 
@@ -372,6 +432,7 @@ public class Search extends JPanel {
             else if(_table=="Infirmier")
             {
               
+                 table_selected="infirmier";
                 System.out.println(".i");
                 grid.gridx = 0;
                 grid.gridy = 6; 
@@ -555,10 +616,6 @@ public class Search extends JPanel {
       */
     }
     
-    public void change_box()
-    {
-        
-    }
     
   
     
