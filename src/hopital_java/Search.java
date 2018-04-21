@@ -33,6 +33,7 @@ import javax.swing.border.TitledBorder;
  */
 public class Search extends JPanel {
 
+    
     private Connexion co_bdd;
     private JButton submit_search; 
     private ControlerModule ctrl;
@@ -74,14 +75,13 @@ public class Search extends JPanel {
     private JLabel nameTable;
     private JLabel lab_fonction;
     
- //   private JTextField fonction;
+
     
-   // private JTextArea textArea;
-    //private List<String> names = Arrays.asList("employe", "docteur", "soigne", "hospitalisation", "malade", "infirmier", "chambre", "service");
-    
-    
-    
-    /** CTOR  @param co */
+    /** Constructeur qui prend en parametre la connexion a la BDD
+     * Contient 2 panels : un pour sélectionner les infomations à rechercher et un pour afficher cette recherche
+     * Panel "information" : JComboBox pour sélectionner dans quelle table on veut faire notre recherche + Elements à cocher/remplir pour la recherche + bouton valider
+     * 
+     * @param co */
     public Search(Connexion co)
     {
         co_bdd=co; //on a la base de donnee
@@ -100,7 +100,7 @@ public class Search extends JPanel {
         //   panelinfo.setBounds(10, 10, 760, 1000);    
         panelinfo.setPreferredSize(new Dimension(this.getWidth(), 200));
         
-          //********************************************* dans le rectange d'informations
+        //********************************************* dans le rectange d'informations
         nameTable=new JLabel("Vous recherchez une information dans la table : ");
         nameTable.setBounds(30, 20, 200, 20);
         panelinfo.add(nameTable);
@@ -137,17 +137,17 @@ public class Search extends JPanel {
         specialite= new JCheckBox("specialite", false);  //doc
         nb_soignes= new JCheckBox("nb de soignes", false);  //Docteur
         
-        code_service= new JCheckBox("code_service", false); 
+        code_service= new JCheckBox("code du service", false); 
         rotation= new JCheckBox("rotation", false);
         salaire= new JCheckBox("salaire", false);  //infirmier
     
-        nom_service= new JCheckBox("nom_service", false);
+        nom_service= new JCheckBox("nom du service", false);
         batiment= new JCheckBox("batiment", false); 
         directeur= new JCheckBox("directeur", false);  //service
         
-        code_service_ch= new JCheckBox("code_service_ch", false); 
-        no_ch= new JCheckBox("no_ch", false); 
-        nb_lits= new JCheckBox("nb_lits", false);  //chambre
+        code_service_ch= new JCheckBox("code du service", false); 
+        no_ch= new JCheckBox("numero de chambre", false); 
+        nb_lits= new JCheckBox("nombre de lits", false);  //chambre
     
     
     //pour faire des recherches 
@@ -194,7 +194,11 @@ public class Search extends JPanel {
     }
     
     
-    
+    /** Pour concaténer les bouts de String et en faire qu'un seul 
+     * @param sn
+     * @param sc
+     * @param b
+     * @return  */
     public String generate_where(String sn, String sc, boolean b)
     {
         String where="";
@@ -210,11 +214,40 @@ public class Search extends JPanel {
         return where;
         
     }
-    /** */
+
+    /** Pour concaténer les bouts de String et en faire qu'un seul 
+     * @param selection
+     * @return  */
+    public String generate_select(Queue <String> selection)
+    {
+        String select="";
+        int s_size=selection.size();///je prend ici la valeur fixe  car la taille diminue fil du temps 
+            
+        if (s_size==1)
+        {select=selection.poll();}
+        else {
+        //on enleve tout
+                
+            select+=selection.poll();
+            for (int i=0; i<s_size-1; i++)
+            {
+                select += ", ";                                   
+                select+= selection.poll();
+            }
+        }
+        
+        return select;
+    }
+    
+    
+    /** Apres avoir appuyé sur le bouton validé, on lance cette fonction 
+     * Regarde toutes les cases cochées/remplies et genere une requete SQL
+     * 
+    */
     public void request()
     {
-        
-        System.out.println("REquEST (debug a effacer)");
+        System.out.println("On entre dans request");
+     
         Queue <String> selection = new LinkedList<>();
         String select="";
         String from=table_selected;
@@ -225,16 +258,15 @@ public class Search extends JPanel {
         
         ArrayList <String> al=new ArrayList<>();
       
-        
         if (table_selected=="malade" || table_selected=="docteur" || table_selected=="infirmier")
         {
             
             // SELECT * 
-            if(numero.isSelected()){selection.add(numero.getText());}
-            if(nom.isSelected()){selection.add(nom.getText());}
-            if(prenom.isSelected()){selection.add(prenom.getText());}
-            if(adresse.isSelected()){selection.add(adresse.getText());}
-            if(tel.isSelected()){selection.add(tel.getText());}
+            if(numero.isSelected()){selection.add("numero");}
+            if(nom.isSelected()){selection.add("nom");}
+            if(prenom.isSelected()){selection.add("prenom");}
+            if(adresse.isSelected()){selection.add("adresse");}
+            if(tel.isSelected()){selection.add("tel");}
             
            
             //for each jtextfield get value
@@ -252,7 +284,7 @@ public class Search extends JPanel {
             
             if (table_selected=="malade")
             {
-                if(mutuelle.isSelected()){selection.add(mutuelle.getText());}
+                if(mutuelle.isSelected()){selection.add("mutuelle");}
                 if(nb_soignants.isSelected()) //alors la c'est la merde
                 { 
                     
@@ -278,7 +310,7 @@ public class Search extends JPanel {
             else if (table_selected=="docteur")
             {
                 innerjoin+=" INNER JOIN employe ON docteur.numero=employe.numero ";
-                if(specialite.isSelected()){selection.add(specialite.getText());}
+                if(specialite.isSelected()){selection.add("specialite");}
                 if(nb_soignes.isSelected())
                 { 
                     
@@ -297,72 +329,55 @@ public class Search extends JPanel {
             {
                 
                 innerjoin+=" INNER JOIN employe ON infirmier.numero=employe.numero ";
-                if(code_service.isSelected()){selection.add(code_service.getText());}
-                if(salaire.isSelected()){selection.add(salaire.getText());}
+                if(code_service.isSelected()){selection.add("code_service");}
+                if(salaire.isSelected()){selection.add("salaire");}
                 
-                
-                if(rotation.isSelected()){selection.add(rotation.getText());}
+                if(rotation.isSelected()){selection.add("rotation");}
                 if (!cb_rotation.getSelectedItem().equals(""))
                 {
                     where+= generate_where("rotation", cb_rotation.getSelectedItem().toString(), bool_where);
                     bool_where=true; 
                 }
-        
-                
             }
-            
-            
         }
         
-      
+        else if (table_selected=="service")
+        {
+            if(nom_service.isSelected()){selection.add("nom");}
+            if(batiment.isSelected()){selection.add("batiment");}
+            if(directeur.isSelected()){selection.add("directeur");}
+        }
+          else if (table_selected=="chambre")
+        {
+            if(code_service_ch.isSelected()){selection.add("code_service");}
+            if(no_ch.isSelected()){selection.add("no_chambre");}
+            if(nb_lits.isSelected()){selection.add("nb_lits");}
+        }
+        
+        
+        
+     
         if (!selection.isEmpty())
         {
-              // MISE EN FORME DU "SELECT" ___________________________
-            int s_size=selection.size();///je prend ici sinon ça va diminuer au fil du temps 
+              // MISE EN FORME DU "SELECT" 
+            select=generate_select(selection);
             
+            //on génère la requete SQL ____________________
+            String sql_final;
             
-            if (s_size==1)
-            {
-                select=selection.poll();
-            }
-            else {
-                //on enleve tout
+            sql_final="SELECT " + select + " FROM " + from;
                 
-                select+=selection.poll();
-                for (int i=0; i<s_size-1; i++)
-                {
-                    
-                    select += ", ";                                   
-                    select+= selection.poll();
-                }
-
-            }
+            if (innerjoin!="") { sql_final+= innerjoin;}                
+            if (where!="") {sql_final+= " WHERE " + where; }                
+            if (groupby!="") { sql_final+=" GROUP BY " + groupby;}
+                
+            System.out.println(sql_final);    
             
             try {
-                String sql_final;
-                sql_final="SELECT " + select + " FROM " + from;
                 
-                if (innerjoin!="")
-                { sql_final+= innerjoin;}
-                
-                if (where!="")
-                {
-                    sql_final+= " WHERE " + where;
-                }
-                
-                if (groupby!="")
-                {
-                  sql_final+=" GROUP BY " + groupby;   
-                }
-                
-                    System.out.println(sql_final);
+                al=co_bdd.remplirChampsRequete(sql_final);
+                System.out.println(al);
             
-                 al=co_bdd.remplirChampsRequete(sql_final);
-                
-                    System.out.println(al);
-            
-                    
-                    
             } catch (SQLException ex) {
                 System.out.println("erreur");
                 Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
@@ -371,11 +386,12 @@ public class Search extends JPanel {
         }
     }
     
+    /** Cette fonction est appelee a chaque fois que l'on change de table dans le JComboBox 
+     Elle gère l'affichage */
     public void changeTable(String _table)
     {
         grid.insets = new Insets(3, 10, 3, 10);
        
-        
         pi2.removeAll(); //on efface tout
       
         grid.gridwidth=1; //on reset la valeur comme quoi la cellule du grid prend une seule cellule
@@ -452,7 +468,7 @@ public class Search extends JPanel {
             else if(_table=="Infirmier")
             {
               
-                 table_selected="infirmier";
+                table_selected="infirmier";
                 System.out.println(".i");
                 grid.gridx = 0;
                 grid.gridy = 6; 
@@ -461,7 +477,6 @@ public class Search extends JPanel {
                 pi2.add(rotation, grid);
                 grid.gridx = 1;
                 pi2.add(cb_rotation, grid);
-                
             }
            
         }
@@ -470,183 +485,44 @@ public class Search extends JPanel {
         if (_table=="Service")
         {
             table_selected="service";
+            
+            grid.anchor = GridBagConstraints.LINE_END;
+            
+            grid.gridy = 1; 
+            grid.gridx = 0;
+            pi2.add(nom_service, grid);
+            
+            grid.gridy = 2; 
+            grid.gridx = 0;
+            pi2.add(batiment, grid);
+            
+            grid.gridy = 3; 
+            grid.gridx = 0;
+            pi2.add(directeur, grid);
+            
         }
         
         if (_table=="Chambre")
         {
             table_selected="chambre";
+            
+             grid.gridy = 1; 
+            grid.gridx = 0;
+            pi2.add(code_service_ch, grid);
+            
+            grid.gridy = 2; 
+            grid.gridx = 0;
+            pi2.add(no_ch, grid);
+            
+            grid.gridy = 3; 
+            grid.gridx = 0;
+            pi2.add(nb_lits, grid);
         }
         pi2.repaint();
         pi2.revalidate();
         
     }
     
-    public void searchGrid(){
-        
- 
-        
-        
-        /* JButton button=new JButton();
-        textArea = new JTextArea("Taaaa");
-        button.setBounds(250, 342, 90, 30);
-        this.add(button); */
-        
-        /*
-        
-        lab_search=new JLabel("Les identifiants : ");
-        lab_search.setBounds(30, 60, 200, 20);
-        panelinfo.add(lab_search);
-        
-        Vector v2=new Vector();
-      
-        numero= new JCheckBox("numero", false);
-        nom= new JCheckBox("nom", false);
-        prenom= new JCheckBox("prenom", false);
-        adresse= new JCheckBox("adresse", false);
-        tel= new JCheckBox("telephone", false);
-        v2.add("Employe");
-        v2.add(numero);
-        v2.add(nom);
-        v2.add(prenom);
-        v2.add(adresse);
-        v2.add(tel);
-      
-        
-        cboId = new JComboCheckBox(v2);
-    //  cboId.setBounds(250, 60, 150, 20);
-        panelinfo.add(cboId);
-       
-        
-        
-        //lab_search=new JLabel("Les identifiants : ");
-        //lab_search.setBounds(30, 60, 200, 20);
-        //panelinfo.add(lab_search);
-        
-        Vector vbis=new Vector();
-      
-        numero_doc= new JCheckBox("numero_docteur", false);
-        specialite= new JCheckBox("specialite", false);
-        vbis.add("Docteur");
-        vbis.add(numero_doc);
-        vbis.add(specialite);
-      
-        
-        cboId2 = new JComboCheckBox(vbis);
-  //    cboId2.setBounds(250, 90, 150, 20);
-        panelinfo.add(cboId2);
-        
-        
-        Vector v3=new Vector();
-      
-        code= new JCheckBox("code", false);
-        nom_service= new JCheckBox("nom service", false);
-        batiment= new JCheckBox("batiment", false);
-        directeur= new JCheckBox("directeur", false);
-        v3.add("Service");
-        v3.add(code);
-        v3.add(nom_service);
-        v3.add(batiment);
-        v3.add(directeur);
-      
-        
-        cboId3 = new JComboCheckBox(v3);
-    //  cboId3.setBounds(250, 120, 150, 20);
-        panelinfo.add(cboId3);
-        
-        Vector v4=new Vector();
-      
-        numero_inf= new JCheckBox("numero", false);
-        code_service= new JCheckBox("code service", false);
-        rotation= new JCheckBox("rotation", false);
-        salaire= new JCheckBox("salaire", false);
-        v4.add("Infirmier");
-        v4.add(numero_inf);
-        v4.add(code_service);
-        v4.add(rotation);
-        v4.add(salaire);
-      
-        
-        cboId4 = new JComboCheckBox(v4);
-      //cboId4.setBounds(250, 150, 150, 20);
-        panelinfo.add(cboId4);
-        
-        Vector v5=new Vector();
-      
-        code_service_ch= new JCheckBox("code service", false);
-        no_ch= new JCheckBox("numero", false);
-        nb_lits= new JCheckBox("nombre lits", false);
-        v5.add("Chambre");
-        v5.add(code_service);
-        v5.add(no_ch);
-        v5.add(nb_lits);
-      
-        
-        cboId5 = new JComboCheckBox(v5);
-     // cboId5.setBounds(250, 180, 150, 20);
-        panelinfo.add(cboId5);
-        
-        Vector v6=new Vector();
-      
-        no_malade= new JCheckBox("numero", false);
-        nom_malade= new JCheckBox("nom", false);
-        prenom_malade= new JCheckBox("rotation", false);
-        adresse_malade= new JCheckBox("adresse", false);
-        tel_malade= new JCheckBox("telephone", false);
-        mutuelle= new JCheckBox("mutuelle", false);
-        v6.add("Malade");
-        v6.add(numero_inf);
-        v6.add(code_service);
-        v6.add(rotation);
-        v6.add(salaire);
-      
-        
-        cboId6 = new JComboCheckBox(v6);
-     // cboId6.setBounds(250, 210, 150, 20);
-        panelinfo.add(cboId6);
-        
-        Vector v7=new Vector();
-      
-        no_malade_hosp= new JCheckBox("numero", false);
-        code_service_hosp= new JCheckBox("code service", false);
-        no_chambre_hosp= new JCheckBox("numero chambre", false);
-        lit_hosp= new JCheckBox("lit", false);
-        v7.add("Hospitalisation");
-        v7.add(no_malade_hosp);
-        v7.add(code_service_hosp);
-        v7.add(no_chambre_hosp);
-        v7.add(lit_hosp);
-      
-        
-        cboId7 = new JComboCheckBox(v7);
-    //    cboId7.setBounds(250, 240, 150, 20);
-        panelinfo.add(cboId7);
-        
-        Vector v8=new Vector();
-      
-        no_docteur_soigne= new JCheckBox("docteur", false);
-        no_malade_soigne= new JCheckBox("malade", false);
-        v8.add("Soigne");
-        v8.add(no_docteur_soigne);
-        v8.add(no_malade_soigne);
-        
-        cboId8 = new JComboCheckBox(v8);
-    //    cboId8.setBounds(250, 270, 150, 20);
-        panelinfo.add(cboId8);
-               
-        lab_fonction=new JLabel("En fonction de : ");
-       // lab_fonction.setBounds(30, 300, 200, 20);
-        panelinfo.add(lab_fonction);
-        
-        fonction= new JTextField();
-      //  fonction.setBounds(250, 300, 150, 20);
-        fonction.setPreferredSize(new Dimension (100, 20));
-        panelinfo.add(fonction);
-        
-      */
-    }
-    
-    
-  
-    
+   
     
 }
