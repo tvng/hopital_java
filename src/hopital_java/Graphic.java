@@ -80,7 +80,7 @@ public class Graphic extends JFrame {
     
     //Cette méthode permet, avec l'action listener de la classe Controler de changer de panel
     /** Passe de l'écran de connection à l'écran avec menu+ module de recherche (par défaut)*/
-    public void goToMenu(String _command)
+    public void goToMenu(String _command) throws SQLException
     {
 
         if (("valider_connection".equals(_command)))  //si on a cliqué sur le bouton valider de la page d'accueil login
@@ -95,7 +95,7 @@ public class Graphic extends JFrame {
             
             //on instancie nos panels que l'on va utiliser plus tard
             search_pan=new Search(co_bdd);
-            update_pan=new Update(co_bdd);
+            //update_pan=new Update(co_bdd);
             reporting_pan=new Reporting(co_bdd);
             
             //on ajoute à un JSplitPane nos panels : en haut le menu, en bas notre panel
@@ -112,7 +112,7 @@ public class Graphic extends JFrame {
     
     /** Fonction pour changer l'affichage des differents panels de modules */
     //depuis le menu on accède a chaque module par exemple : rechercher, maj, etc
-    public void goToModule(String _command)
+    public void goToModule(String _command) throws SQLException
     {
         //si on a cliqué sur le bouton "rechercher"
          if ("menu_rechercher".equals(_command))
@@ -135,12 +135,14 @@ public class Graphic extends JFrame {
         if ("menu_MAJ".equals(_command))
         {
             //on enleve le pan du bas
+            update_pan=new Update(co_bdd);
+            /*
             split_pane.remove(split_pane.getBottomComponent());
             
             JScrollPane maj = new JScrollPane(update_pan, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-            split_pane.setBottomComponent(maj); //pour le remplacer par le pan de maj
+            split_pane.setBottomComponent(maj); //pour le remplacer par le pan de maj*/
             
             //update_pan=new Update(co_bdd);
         }
