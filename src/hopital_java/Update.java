@@ -55,7 +55,11 @@ public class Update extends JPanel {
 
     //private DefaultTableModel tblModel;
     JTable tblList;
-
+/**
+ * fait la connexion avec la bdd et appelle affichage()
+ * @param _co
+ * @throws SQLException 
+ */
     public Update(Connexion _co) throws SQLException {
         //JLabel debug=new JLabel ("update (label a supprimer)");
         //add(debug);
@@ -64,7 +68,10 @@ public class Update extends JPanel {
         //Dans ce module on veut ajouter, modifier et supprimer dans la BDD
 
     }
-
+/**
+ * affichage() permet d'afficher la fenetre MAJ
+ * @throws SQLException 
+ */
     public void affichage() throws SQLException {
         JFrame frame = new JFrame("Mise a jour");
         frame.setBounds(100, 100, 800, 700);
@@ -433,7 +440,7 @@ public class Update extends JPanel {
             public void mouseClicked(MouseEvent arg0) {
                 panelinfo.setVisible(false);
                 btnAdd.setVisible(false);
-                btnSearch.setVisible(true);
+                //btnSearch.setVisible(true);
                 btnEdit.setVisible(true);
                 btnDelete.setVisible(true);
                 String selectedPers = (String) combopers.getSelectedItem();
