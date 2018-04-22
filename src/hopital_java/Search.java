@@ -38,8 +38,10 @@ public class Search extends JPanel {
 
     private JPanel panelinfo;
     private JPanel pi2; //panel dans le panel d'info A=Afficher R=Rechercher
+    
     private JPanel panelsearch;
-
+    private JScrollPane ps;
+    
     private GridBagConstraints grid;
 
     private JComboBox combotable; //j'utilise celui la pour connaitre quelle table on selectionne
@@ -63,11 +65,15 @@ public class Search extends JPanel {
     private JComboBox cb_rotation; //infirmier : blank, JOUR, NUIT
     private JComboBox cb_service; //chambre
     
-    //+ moyenne salaire et order by alphabetique machin, groupby  *******************************************
-    //a faire plus tard!
+    //+ moyenne salaire 
     private JLabel lab_search;
     private JLabel nameTable;
     private JLabel lab_fonction;
+    
+    
+   
+    
+    
 
     /**
      * Constructeur qui prend en parametre la connexion a la BDD Contient 2
@@ -92,7 +98,7 @@ public class Search extends JPanel {
         panelinfo.setLayout(new BoxLayout(panelinfo, BoxLayout.PAGE_AXIS));
         panelinfo.setBorder(new TitledBorder(null, "Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         //   panelinfo.setBounds(10, 10, 760, 1000);    
-        panelinfo.setPreferredSize(new Dimension(this.getWidth(), 200));
+       // panelinfo.setPreferredSize(new Dimension(this.getWidth(), 180));
                 
         panelinfo.setBackground(new Color(187,164,230));
 
@@ -113,6 +119,8 @@ public class Search extends JPanel {
         grid = new GridBagConstraints();
 
         //****************************************************  Rectangle search
+         
+        
         panelsearch = new JPanel();
         panelsearch.setBorder(new TitledBorder(null, "Search", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panelsearch.setPreferredSize(new Dimension(this.getWidth(), 200));
@@ -168,7 +176,9 @@ public class Search extends JPanel {
 
         //*******
         this.add(panelinfo);
-        this.add(panelsearch);
+        
+        ps = new JScrollPane(panelsearch, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        this.add(ps);
 
         submit_search = new JButton("Lancer la recherche");
         submit_search.addActionListener(ctrl);
@@ -212,19 +222,19 @@ public class Search extends JPanel {
      * @param selection
      * @return
      */
-    public String generate_select(Queue<String> selection) {
+    public String generate_select(LinkedList <String> selection) {
         String select = "";
         int s_size = selection.size();///je prend ici la valeur fixe  car la taille diminue fil du temps 
 
         if (s_size == 1) {
-            select = selection.poll();
+            select = selection.getFirst();
         } else {
             //on enleve tout
 
-            select += selection.poll();
-            for (int i = 0; i < s_size - 1; i++) {
+            select += selection.getFirst();
+            for (int i = 1; i < s_size; i++) {
                 select += ", ";
-                select += selection.poll();
+                select += selection.get(i);
             }
         }
 
@@ -239,7 +249,9 @@ public class Search extends JPanel {
     public void request() {
         System.out.println("On entre dans request");
 
-        Queue<String> selection = new LinkedList<>();
+       
+        LinkedList<String>  selection = new LinkedList<>();
+        
         String select = "";
         String from = table_selected;
         String where = "";
@@ -263,10 +275,10 @@ public class Search extends JPanel {
             }
 
             if (adresse.isSelected()) {
-                selection.add("adresse");
+                selection.add("malade.adresse");
             }
             if (tel.isSelected()) {
-                selection.add("tel");
+                selection.add("malade.tel");
             }
 
             //jtextfield
@@ -282,7 +294,7 @@ public class Search extends JPanel {
 
             //JChckbox
             if (mutuelle.isSelected()) {
-                selection.add("mutuelle");
+                selection.add("malade.mutuelle");
             }
             if (nb_soignants.isSelected()) //alors la c'est compliqué
             {
@@ -438,7 +450,7 @@ public class Search extends JPanel {
         }
 
         if (!selection.isEmpty()) {
-            // MISE EN FORME DU "SELECT" 
+            // MISE EN FORME DU "SELECT" _____________________________________________
             select = generate_select(selection);
 
             //on génère la requete SQL ____________________
@@ -465,11 +477,52 @@ public class Search extends JPanel {
 
                 al = co_bdd.remplirChampsRequete(sql_final);
                 System.out.println(al);
+              
 
             } catch (SQLException ex) {
                 System.out.println("erreur");
                 Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            //********** TABLEAU AFFICHAGE 
+           
+            //on convertit les titres
+            String[] titres= new String[selection.size()];
+            for (int i=0; i<selection.size();i++)
+            {
+                titres[i]=selection.get(i);
+            }
+            
+            //on convertit en data
+            
+            
+            int y = selection.size(); 
+            int x= al.size(); 
+            Object[][] data = new Object[x][y];
+            
+            //on convertit les données 
+            for (int i=0; i<al.size(); i++)
+            {
+                String[] splitted;
+                //on utilise la fonction "split" et on sépare notre string sur la 'virgule' du string de l'arraylist 
+                splitted = al.get(i).split(","); //renvoie un tab sur y
+                for (int j=0; j<selection.size(); j++)
+                {
+                    data[i][j]=splitted[j];
+                }
+                
+            }
+            JTable tableau = new JTable(data, titres);
+           
+          
+             panelsearch.removeAll();
+            panelsearch.add(tableau);
+            
+            panelsearch.repaint();
+            panelsearch.revalidate();
+            
+     
+            
 
         }
     }
