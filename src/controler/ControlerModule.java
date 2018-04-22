@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 */
 
 
-public class ControlerModule implements ActionListener{
+public class ControlerModule implements ActionListener, ItemListener{
 
     
     private Search s;
@@ -33,8 +33,26 @@ public class ControlerModule implements ActionListener{
             
     @Override
     public void actionPerformed(ActionEvent ae) {
-       System.out.println("controle module");
-       s.request();
+       
+        String command=ae.getActionCommand();
+        
+        if (command=="Lancer la recherche") {
+            System.out.println("controle module");
+            s.request();
+        }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent ie) {
+        
+         if (ie.getStateChange() == ItemEvent.SELECTED) {
+            Object item=ie.getItem();
+             System.out.println("événement déclenché sur : " + ie.getItem());
+            
+              s.changeTable(String.valueOf(item));  
+         }
+       
+
     }
  
 }

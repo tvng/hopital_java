@@ -12,6 +12,7 @@ package db;
  */
 import java.sql.*;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * 
@@ -216,12 +217,65 @@ public class Connexion {
     public void executeUpdate(String requeteMaj) throws SQLException {
         stmt.executeUpdate(requeteMaj);
     }
-    
+    /*
     public void ajouterChamp(String requete) throws SQLException {
         System.out.println("blob");
         ps=conn.prepareStatement(requete);
         ps.executeUpdate();
         
+    }*/
+    
+    public DefaultTableModel afficherTable(String table) throws SQLException {
+        DefaultTableModel model = new DefaultTableModel(new String[]{}, 0);
+        //String[] columnNames = new String[]{};
+        if (table == "employe") {
+            model.addColumn("numero");
+            model.addColumn("nom");
+            model.addColumn("prenom");
+            model.addColumn("adresse");
+            model.addColumn("telephone");
+            //columnNames.add{"numero", "nom", "prenom", "adresse", "telephone"};
+        } else if (table == "docteur") {
+            model.addColumn("numero");
+            model.addColumn("specialite");
+            //model = new DefaultTableModel(new String[]{"Numero", "Specialite"}, 0);
+        } else if (table == "infirmier") {
+            model.addColumn("numero");
+            model.addColumn("code_service");
+            model.addColumn("rotation");
+            model.addColumn("salaire");
+            //model = new DefaultTableModel(new String[]{"Numero", "Code service", "Rotation", "Salaire"}, 0);
+        }
+        //model.setColumnIdentifiers(columnNames);
+        //String sqll="SELECT * FROM employe";
+        ResultSet rs = stmt.executeQuery("SELECT * FROM " + table);
+
+        if (table == "employe") {
+            while (rs.next()) {
+                String d = rs.getString("numero");
+                String e = rs.getString("nom");
+                String f = rs.getString("prenom");
+                String g = rs.getString("adresse");
+                String h = rs.getString("tel");
+                model.addRow(new Object[]{d, e, f, g, h});
+            }
+        } else if (table == "docteur") {
+            while (rs.next()) {
+                String d = rs.getString("numero");
+                String e = rs.getString("specialite");
+                model.addRow(new Object[]{d, e});
+            }
+        } else if (table == "infirmier") {
+            while (rs.next()) {
+                String d = rs.getString("numero");
+                String e = rs.getString("code_service");
+                String f = rs.getString("rotation");
+                String h = rs.getString("salaire");
+                model.addRow(new Object[]{d, e, f, h});
+            }
+        }
+
+        return model;
     }
     
 }

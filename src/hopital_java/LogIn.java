@@ -51,10 +51,11 @@ public class LogIn extends JPanel{
         Dimension dimension = new Dimension(200, 40); //pour la taille des labels et machins             
         
         //boutons radio
-        local = new JRadioButton("connection locale");
+        local = new JRadioButton("connection locale", true);
         local.setBackground(new Color(23,27,102));
         local.setForeground(new Color(126,205,250));
-        distant = new JRadioButton("connection distante", true); //on coche celui la par defaut
+        
+        distant = new JRadioButton("connection distante"); //on coche celui la par defaut
         distant.setBackground(new Color(23,27,102));
         distant.setForeground(new Color(126,205,250));
         
@@ -65,7 +66,7 @@ public class LogIn extends JPanel{
         lab_password=new JLabel("Mot de passe ECE :");
         
         //instanciation des zones de txt
-        nameBDD=new JTextField();
+        nameBDD=new JTextField("hopital");
         passwordBDD=new JTextField();  
         login=new JTextField("root");
         password=new JTextField();  

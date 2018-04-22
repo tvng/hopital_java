@@ -8,6 +8,9 @@ package controler;
 
 import hopital_java.Graphic;
 import java.awt.event.*;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -60,8 +63,12 @@ public class Controler implements ActionListener{
             if(vue.getIdentifiants() == true)
             {
                 System.out.println("click sur le bouton valider du panel de connection");
-                vue.goToMenu("valider_connection"); //on appelle la methode dans "Graphic"
-                // on lui envoie un String pour savoir sur quel bouton on a appuyé  
+                try {
+                    vue.goToMenu("valider_connection"); //on appelle la methode dans "Graphic"
+                    // on lui envoie un String pour savoir sur quel bouton on a appuyé  
+                } catch (SQLException ex) {
+                    Logger.getLogger(Controler.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }else{
                 System.out.println("Identifiants incorrects");
             }
@@ -81,19 +88,31 @@ public class Controler implements ActionListener{
          if (source==vue.getMenu().getSearch() )
         {
             System.out.println("click sur le bouton recherche du menu");
-            vue.goToModule("menu_rechercher"); //on appelle la methode dans "Graphic" 
+            try {
+                vue.goToModule("menu_rechercher"); //on appelle la methode dans "Graphic" 
+            } catch (SQLException ex) {
+                Logger.getLogger(Controler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
          if (source==vue.getMenu().getUpdate() )
         {
             System.out.println("click sur le bouton recherche du menu");
-            vue.goToModule("menu_MAJ"); //on appelle la methode dans "Graphic" 
+            try {
+                vue.goToModule("menu_MAJ"); //on appelle la methode dans "Graphic" 
+            } catch (SQLException ex) {
+                Logger.getLogger(Controler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
          
           if (source==vue.getMenu().getReporting() )
         {
             System.out.println("click sur le bouton de generation des graphiques du menu");
-            vue.goToModule("menu_generer"); //on appelle la methode dans "Graphic" 
+            try {
+                vue.goToModule("menu_generer"); //on appelle la methode dans "Graphic" 
+            } catch (SQLException ex) {
+                Logger.getLogger(Controler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
          
     }
