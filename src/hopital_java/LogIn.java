@@ -48,11 +48,15 @@ public class LogIn extends JPanel{
         setLayout(new GridBagLayout());
 
         
-        Dimension dimension = new Dimension(200, 40); //pour la taille des labels et machins
+        Dimension dimension = new Dimension(200, 40); //pour la taille des labels et machins             
         
         //boutons radio
         local = new JRadioButton("connection locale");
+        local.setBackground(new Color(23,27,102));
+        local.setForeground(new Color(126,205,250));
         distant = new JRadioButton("connection distante", true); //on coche celui la par defaut
+        distant.setBackground(new Color(23,27,102));
+        distant.setForeground(new Color(126,205,250));
         
         //partie avec rentree d'informations
         lab_nameBDD=new JLabel("Nom de la BDD :");
@@ -90,17 +94,18 @@ public class LogIn extends JPanel{
         ButtonGroup buttgroup = new ButtonGroup(); 
         buttgroup.add(local);
         buttgroup.add(distant); 
-       
+        
         //texte simple de bienvenue
         JLabel hello = new JLabel("Bienvenue, veuillez vous connecter");
         
-        grid.insets = new Insets(0, 0, 50, 0); //on définit des marges : top left bot right
+        grid.insets = new Insets(10, 0, 20, 0); //on définit des marges : top left bot right
         grid.gridx = 0; //on se positionne sur le grid en (0, 0)
         grid.gridy = 0;
         grid.gridwidth = 2; //le label de bienvenue prend la place de 3 boutons en largeur
         //c'est comme un colspan en html
         
         this.add(hello, grid); //on ajoute le texte en (0,0)
+        this.setBackground(new Color(126,205,250));
           
         grid.insets = new Insets(5, 5, 5, 5); //on definit de nouvelles marges pour la suite
         
@@ -147,9 +152,10 @@ public class LogIn extends JPanel{
         grid.gridy = 6;
         this.add(submit, grid);
         
-        
-        //  **** le reste *****   
-        
+        // Image accueil
+        JLabel icon = new JLabel(new ImageIcon("images/croix.png"));
+        grid.gridy = 8;
+        this.add(icon, grid);
         
     }
     

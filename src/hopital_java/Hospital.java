@@ -14,6 +14,7 @@ on fait alors une connexion locale avec une bdd "hopital" sur WAMP phpmyadmin.
 Cette bdd est fournie dans le .zip sur campus c'est hopital.sql
 
  guide ici : http://campus.ece.fr/pluginfile.php/177623/mod_resource/content/1/Guide%20TP%20%20MySQL.pdf
+sources : Openclassroom
 
 */
 
