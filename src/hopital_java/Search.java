@@ -209,7 +209,7 @@ public class Search extends JPanel {
             where += " AND ";
         }
 
-        where += sn + "= '" + sc + "'";
+        where += sn + " LIKE '" + sc + "%'";
 
         return where;
 
