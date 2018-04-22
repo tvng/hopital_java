@@ -93,6 +93,8 @@ public class Search extends JPanel {
         panelinfo.setBorder(new TitledBorder(null, "Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         //   panelinfo.setBounds(10, 10, 760, 1000);    
         panelinfo.setPreferredSize(new Dimension(this.getWidth(), 200));
+                
+        panelinfo.setBackground(new Color(187,164,230));
 
         //********************************************* dans le rectange d'informations
         nameTable = new JLabel("Vous recherchez une information dans la table : ");
@@ -106,7 +108,7 @@ public class Search extends JPanel {
         combotable = new JComboBox<>(table);
         combotable.addItemListener(ctrl);
         panelinfo.add(combotable);
-
+        
         pi2 = new JPanel(new GridBagLayout());
         grid = new GridBagConstraints();
 
@@ -114,6 +116,7 @@ public class Search extends JPanel {
         panelsearch = new JPanel();
         panelsearch.setBorder(new TitledBorder(null, "Search", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panelsearch.setPreferredSize(new Dimension(this.getWidth(), 200));
+        panelsearch.setBackground(new Color(172,164,230));
 
         // *********** Declaration des checkbox textfield machin pour le rectangle d'informations
         //aucun affichage ici!

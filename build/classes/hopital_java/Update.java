@@ -70,6 +70,7 @@ public class Update extends JPanel {
         frame.setBounds(100, 100, 800, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
+        frame.setBackground(new Color(187,245,185));  
         
         //setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 

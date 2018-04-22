@@ -30,6 +30,8 @@ public class Menu extends JPanel{
         update=new JButton("MAJ");
         reporting=new JButton("Générer");
         
+        this.setBackground(new Color(126,205,250));
+        
         add(search);
         add(update);
         add(reporting);
