@@ -40,7 +40,7 @@ public class Search extends JPanel {
     private JPanel pi2; //panel dans le panel d'info A=Afficher R=Rechercher
     
     private JPanel panelsearch;
-    private JScrollPane ps;
+
     
     private GridBagConstraints grid;
 
@@ -97,9 +97,8 @@ public class Search extends JPanel {
         panelinfo = new JPanel();
         panelinfo.setLayout(new BoxLayout(panelinfo, BoxLayout.PAGE_AXIS));
         panelinfo.setBorder(new TitledBorder(null, "Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        //   panelinfo.setBounds(10, 10, 760, 1000);    
-       // panelinfo.setPreferredSize(new Dimension(this.getWidth(), 180));
-                
+        panelinfo.setPreferredSize(new Dimension(this.getWidth(), 300));       
+// panelinfo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 400));
         panelinfo.setBackground(new Color(187,164,230));
 
         //********************************************* dans le rectange d'informations
@@ -113,6 +112,7 @@ public class Search extends JPanel {
         String[] table = {"Malade", "Docteur", "Infirmier", "Service", "Chambre"};
         combotable = new JComboBox<>(table);
         combotable.addItemListener(ctrl);
+      //  combotable.setMaximumSize(new Dimension(200, 40));
         panelinfo.add(combotable);
         
         pi2 = new JPanel(new GridBagLayout());
@@ -123,7 +123,7 @@ public class Search extends JPanel {
         
         panelsearch = new JPanel();
         panelsearch.setBorder(new TitledBorder(null, "Search", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelsearch.setPreferredSize(new Dimension(this.getWidth(), 200));
+        panelsearch.setPreferredSize(new Dimension(this.getWidth(), 300));
         panelsearch.setBackground(new Color(172,164,230));
 
         // *********** Declaration des checkbox textfield machin pour le rectangle d'informations
@@ -177,8 +177,7 @@ public class Search extends JPanel {
         //*******
         this.add(panelinfo);
         
-        ps = new JScrollPane(panelsearch, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        this.add(ps);
+        this.add(panelsearch);
 
         submit_search = new JButton("Lancer la recherche");
         submit_search.addActionListener(ctrl);
@@ -477,6 +476,7 @@ public class Search extends JPanel {
 
                 al = co_bdd.remplirChampsRequete(sql_final);
                 System.out.println(al);
+              System.out.println("AL SIZE : " + al.size());
               
 
             } catch (SQLException ex) {
@@ -510,13 +510,21 @@ public class Search extends JPanel {
                 {
                     data[i][j]=splitted[j];
                 }
-                
+                System.out.println("slitted SIZE : " + splitted.length);
+                //NE PAS UTILISER SPLITTED.LENGHT CAR DANS "ADRESSE" Y'A DES VIRGULES 
             }
+            
+            System.out.println("SELECTION SIZE : " + selection.size());
+            
+            
             JTable tableau = new JTable(data, titres);
-           
-          
-             panelsearch.removeAll();
-            panelsearch.add(tableau);
+            JScrollPane tab = new JScrollPane(tableau); 
+            tab.setPreferredSize(new Dimension(this.getWidth(), 250));
+            
+            panelsearch.removeAll();
+             
+             
+            panelsearch.add(tab);
             
             panelsearch.repaint();
             panelsearch.revalidate();
