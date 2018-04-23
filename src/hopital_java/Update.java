@@ -475,6 +475,16 @@ public class Update extends JPanel {
                 btnDelete.setVisible(false);
                 btnExit.setEnabled(false);
                 tblList.setEnabled(false);*/
+                
+                txtNum.setVisible(true);
+                txtName.setVisible(true);
+                txtPrenom.setVisible(true);
+                txtTel.setVisible(true);
+                txtAddress.setVisible(true);
+                txtRotation.setVisible(true);
+                txtSalaire.setVisible(true);
+                txtCode_service.setVisible(true);
+                //txtName.setVisible(true);
 
                 int a = JOptionPane.showConfirmDialog(null, "Voulez-vous ajouter cette donnee?", "Message", JOptionPane.YES_NO_OPTION);
 
@@ -483,9 +493,9 @@ public class Update extends JPanel {
                     try {
                         String selectedPers = (String) combopers.getSelectedItem();
 //on entre une requete SQL (cf le Cahier des charges)
-                        int u=co_bdd.verify("SELECT count(*) FROM employe WHERE numero = "+txtNum.getText());
-                        System.out.println(u);
-                        if(u == 1){
+                        //int u=co_bdd.verify("SELECT count(*) FROM employe WHERE numero = "+txtNum.getText());
+                        //System.out.println(u);
+                        //if(u == 1){
                             if(selectedPers=="employe"){
                                 co_bdd.executeUpdate("INSERT INTO " + selectedPers + " values ('" + txtNum.getText() + "','" + txtName.getText() + "','" + txtPrenom.getText() + "','" + txtAddress.getText() + "','" + txtTel.getText() + "')");
                             } else if(selectedPers=="docteur"){
@@ -493,11 +503,11 @@ public class Update extends JPanel {
                             }else if(selectedPers =="infirmier"){
                                 co_bdd.executeUpdate("INSERT INTO " + selectedPers + " values ('" + txtNum.getText() + "','" + txtCode_service.getText() + "','" + txtRotation.getText() + "','" + txtSalaire.getText() + "')");
                             }                           
-                            labell.setText("Cette donnee a bien ete ajoutee");
-                        }else if(u==0){
-                            System.out.println("Cette donnee n'a pas pu etre ajoutee");
-                            labell.setText("Cette donnee n'a pas pu etre ajoutee");
-                        }
+                           // labell.setText("Cette donnee a bien ete ajoutee");
+                        //}else if(u==0){
+                            //System.out.println("Cette donnee n'a pas pu etre ajoutee");
+                            //labell.setText("Cette donnee n'a pas pu etre ajoutee");
+                        //}
                     } catch (SQLException ex) {
                         System.out.println("erreur");
                         Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
@@ -666,13 +676,18 @@ public class Update extends JPanel {
 
                 if (a == 0) {
                     try {
-                        co_bdd.executeUpdate("UPDATE " + selectedPers + " set numero='" + txtNum.getText() + "',nom='" + txtName.getText() + "',prenom='" + txtPrenom.getText() + "',adresse='" + txtAddress.getText() + "',tel='" + txtTel.getText() + "' where numero='" + txtNum.getText() + "'");
+                        System.out.println(selectedPers);
+                        //System.out.println(txtNum.getText());
+                        //System.out.println(txtAddress.getText());
+                        //System.out.println(txtName.getText());
+                        //System.out.println(txtPrenom.getText());
+                        co_bdd.executeUpdate("UPDATE " + selectedPers + " set numero='" + txtNumbis.getText() + "',nom='" + txtNamebis.getText() + "',prenom='" + txtPrenombis.getText() + "',adresse='" + txtAddressbis.getText() + "',tel='" + txtTelbis.getText() + "' where numero='" + txtNumbis.getText() + "'");
                         tblList.setModel(co_bdd.afficherTable(selectedPers));
 
                     } catch (SQLException ex) {
                         System.out.println("erreur");
                         verification.setText("Nous n'avons pas pu editer cette ligne.");
-                        //Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     frame2.setVisible(false);
 
