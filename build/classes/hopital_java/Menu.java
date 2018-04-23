@@ -44,10 +44,14 @@ public class Menu extends JPanel{
         return search;
     } 
     
+    /** GETTER
+     * @return  */ 
      public JButton getUpdate()
     {
         return update;
     } 
+     /** GETTER
+     * @return  */ 
       public JButton getReporting()
     {
         return reporting;
