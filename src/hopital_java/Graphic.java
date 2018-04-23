@@ -48,6 +48,7 @@ public class Graphic extends JFrame {
     // On cree un boolean pour valider les identifiants
     private boolean identifiants = false;
     
+    /** ctor */
     public Graphic()
     { 
         
@@ -78,8 +79,8 @@ public class Graphic extends JFrame {
         
     }
     
-    //Cette méthode permet, avec l'action listener de la classe Controler de changer de panel
-    /** Passe de l'écran de connection à l'écran avec menu+ module de recherche (par défaut)*/
+    /** //Cette méthode permet, avec l'action listener de la classe Controler de changer de panel
+   * Passe de l'écran de connection à l'écran avec menu+ module de recherche (par défaut)*/
     public void goToMenu(String _command) throws SQLException
     {
 
@@ -110,8 +111,8 @@ public class Graphic extends JFrame {
         }
     }
     
-    /** Fonction pour changer l'affichage des differents panels de modules */
-    //depuis le menu on accède a chaque module par exemple : rechercher, maj, etc
+    /** Fonction pour changer l'affichage des differents panels de modules 
+     *depuis le menu on accède a chaque module par exemple : rechercher, maj, etc */
     public void goToModule(String _command) throws SQLException
     {
         //si on a cliqué sur le bouton "rechercher"

@@ -31,7 +31,9 @@ public class Controler implements ActionListener{
         vue=_vue;
     }
     
-    //a chaque évènement/clic sur un des objets qui a un actionlistener, on appele cette méthode
+    /** a chaque évènement/clic sur un des objets qui a un actionlistener, on appele cette méthode
+     * qui dit au menu de changer de panel ou au login de passer au menu
+     * @param ae */
     @Override
      public void actionPerformed(ActionEvent ae) {
            
