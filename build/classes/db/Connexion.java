@@ -15,12 +15,13 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * 
- * Connexion a votre BDD locale ou à distance sur le serveur de l'ECE via le tunnel SSH
- * 
+ *
+ * Connexion a votre BDD locale ou à distance sur le serveur de l'ECE via le
+ * tunnel SSH
+ *
  * @author segado
- * 
-
+ *
+ *
  */
 public class Connexion {
 
@@ -32,9 +33,9 @@ public class Connexion {
     private Statement stmt;
     private ResultSet rset;
     private ResultSetMetaData rsetMeta;
-    
+
     private PreparedStatement ps;
-    
+
     /**
      * ArrayList public pour les tables
      */
@@ -74,6 +75,7 @@ public class Connexion {
     /**
      * Constructeur avec 4 paramètres : username et password ECE, login et
      * password de la BDD à distance sur le serveur de l'ECE
+     *
      * @param usernameECE
      * @param passwordECE
      * @param loginDatabase
@@ -123,8 +125,7 @@ public class Connexion {
     }
 
     /**
-     * Méthode qui ajoute la requete de MAJ en parametre dans son
-     * ArrayList
+     * Méthode qui ajoute la requete de MAJ en parametre dans son ArrayList
      *
      * @param requete
      */
@@ -170,8 +171,9 @@ public class Connexion {
 
     /**
      * Methode qui retourne l'ArrayList des champs de la requete en parametre
+     *
      * @param requete
-     * @return 
+     * @return
      * @throws java.sql.SQLException
      */
     public ArrayList remplirChampsRequete(String requete) throws SQLException {
@@ -199,8 +201,7 @@ public class Connexion {
             }
 
             // ajouter un "\n" à la ligne des champs
-    //        champs = champs + "\n";  /************************ askip enlever le \n pourrait sauver des vies */
-
+            //        champs = champs + "\n";  /************************ askip enlever le \n pourrait sauver des vies */
             // ajouter les champs de la ligne dans l'ArrayList
             liste.add(champs);
         }
@@ -211,12 +212,28 @@ public class Connexion {
 
     /**
      * Méthode qui execute une requete de MAJ en parametre
+     *
      * @param requeteMaj
      * @throws java.sql.SQLException
      */
     public void executeUpdate(String requeteMaj) throws SQLException {
         stmt.executeUpdate(requeteMaj);
     }
+
+    public int verify(String requete) throws SQLException {
+        final String queryCheck = requete;
+        final PreparedStatement ps = conn.prepareStatement(queryCheck);
+        //ps.setString(0, "numero");
+        final ResultSet resultSet = ps.executeQuery();
+
+        if (resultSet.next()) {
+            final int count = resultSet.getInt(1);
+            return count;
+        }else{
+            return 0;
+        }
+    }
+
     /*
     public void ajouterChamp(String requete) throws SQLException {
         System.out.println("blob");
@@ -224,7 +241,7 @@ public class Connexion {
         ps.executeUpdate();
         
     }*/
-    
+
     public DefaultTableModel afficherTable(String table) throws SQLException {
         DefaultTableModel model = new DefaultTableModel(new String[]{}, 0);
         //String[] columnNames = new String[]{};
@@ -277,5 +294,5 @@ public class Connexion {
 
         return model;
     }
-    
+
 }

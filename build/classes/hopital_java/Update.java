@@ -55,7 +55,11 @@ public class Update extends JPanel {
 
     //private DefaultTableModel tblModel;
     JTable tblList;
-
+/**
+ * fait la connexion avec la bdd et appelle affichage()
+ * @param _co
+ * @throws SQLException 
+ */
     public Update(Connexion _co) throws SQLException {
         //JLabel debug=new JLabel ("update (label a supprimer)");
         //add(debug);
@@ -64,7 +68,10 @@ public class Update extends JPanel {
         //Dans ce module on veut ajouter, modifier et supprimer dans la BDD
 
     }
-
+/**
+ * affichage() permet d'afficher la fenetre MAJ
+ * @throws SQLException 
+ */
     public void affichage() throws SQLException {
         JFrame frame = new JFrame("Mise a jour");
         frame.setBounds(100, 100, 800, 700);
@@ -244,6 +251,10 @@ public class Update extends JPanel {
         label_8 = new JLabel("Salaire : ");
         label_8.setBounds(20, 280, 70, 14);
         panelinfo.add(label_8);
+        
+        JLabel labell =new JLabel("");
+        labell.setBounds(20, 350, 300, 14);
+        panelinfo.add(labell);
 
         verification = new JLabel();
         verification.setBounds(30, 110, 400, 14);
@@ -433,7 +444,7 @@ public class Update extends JPanel {
             public void mouseClicked(MouseEvent arg0) {
                 panelinfo.setVisible(false);
                 btnAdd.setVisible(false);
-                btnSearch.setVisible(true);
+                //btnSearch.setVisible(true);
                 btnEdit.setVisible(true);
                 btnDelete.setVisible(true);
                 String selectedPers = (String) combopers.getSelectedItem();
@@ -472,7 +483,21 @@ public class Update extends JPanel {
                     try {
                         String selectedPers = (String) combopers.getSelectedItem();
 //on entre une requete SQL (cf le Cahier des charges)
-                        co_bdd.executeUpdate("INSERT INTO " + selectedPers + " values ('" + txtNum.getText() + "','" + txtName.getText() + "','" + txtPrenom.getText() + "','" + txtAddress.getText() + "','" + txtTel.getText() + "')");
+                        int u=co_bdd.verify("SELECT count(*) FROM employe WHERE numero = "+txtNum.getText());
+                        System.out.println(u);
+                        if(u == 1){
+                            if(selectedPers=="employe"){
+                                co_bdd.executeUpdate("INSERT INTO " + selectedPers + " values ('" + txtNum.getText() + "','" + txtName.getText() + "','" + txtPrenom.getText() + "','" + txtAddress.getText() + "','" + txtTel.getText() + "')");
+                            } else if(selectedPers=="docteur"){
+                                co_bdd.executeUpdate("INSERT INTO " + selectedPers + " values ('" + txtNum.getText() + "','" + txtSpecialite.getText() + "')");
+                            }else if(selectedPers =="infirmier"){
+                                co_bdd.executeUpdate("INSERT INTO " + selectedPers + " values ('" + txtNum.getText() + "','" + txtCode_service.getText() + "','" + txtRotation.getText() + "','" + txtSalaire.getText() + "')");
+                            }                           
+                            labell.setText("Cette donnee a bien ete ajoutee");
+                        }else if(u==0){
+                            System.out.println("Cette donnee n'a pas pu etre ajoutee");
+                            labell.setText("Cette donnee n'a pas pu etre ajoutee");
+                        }
                     } catch (SQLException ex) {
                         System.out.println("erreur");
                         Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
